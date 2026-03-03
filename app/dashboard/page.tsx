@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 async function UserGreeting() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();

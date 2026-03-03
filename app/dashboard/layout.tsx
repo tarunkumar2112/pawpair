@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Header } from "@/components/header";
 
+export const dynamic = "force-dynamic";
+
 async function AuthGuard() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getClaims();
