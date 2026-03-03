@@ -129,15 +129,15 @@ export function EnergyMatchSection() {
                 : "opacity-0 translate-x-10"
             }`}
           >
-            <div className="relative w-full max-w-[600px] mx-auto lg:ml-auto">
-              <Image
-                src="/caredog.png"
-                alt="Man with dog in kitchen"
-                width={600}
-                height={450}
-                className="w-full h-auto rounded-[20px]"
-              />
-            </div>
+              <div className="relative w-full max-w-[600px] mx-auto lg:ml-auto">
+                <Image
+                  src="/caredog.png"
+                  alt="Man with dog in kitchen"
+                  width={600}
+                  height={450}
+                  className="w-full h-auto rounded-[20px]"
+                />
+              </div>
           </div>
         </div>
       </div>

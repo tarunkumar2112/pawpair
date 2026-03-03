@@ -1,59 +1,66 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef, useState } from "react";
 
 export function TimelineSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+  const [gsapLoaded, setGsapLoaded] = useState(false);
 
   useEffect(() => {
-    if (!sectionRef.current || !lineRef.current) return;
+    const loadGsap = async () => {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      
+      gsap.registerPlugin(ScrollTrigger);
+      setGsapLoaded(true);
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        lineRef.current,
-        { height: "0%" },
-        {
-          height: "100%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center",
-            end: "bottom center",
-            scrub: 1,
-          },
-        }
-      );
+      if (!sectionRef.current || !lineRef.current) return;
 
-      const items = gsap.utils.toArray(".timeline-item");
-      items.forEach((item: any, index: number) => {
+      const ctx = gsap.context(() => {
         gsap.fromTo(
-          item,
+          lineRef.current,
+          { height: "0%" },
           {
-            opacity: 0,
-            x: index % 2 === 0 ? -50 : 50,
-          },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.8,
+            height: "100%",
+            ease: "none",
             scrollTrigger: {
-              trigger: item,
-              start: "top 80%",
-              end: "top 50%",
-              toggleActions: "play none none reverse",
+              trigger: sectionRef.current,
+              start: "top center",
+              end: "bottom center",
+              scrub: 1,
             },
           }
         );
-      });
-    }, sectionRef);
 
-    return () => ctx.revert();
+        const items = gsap.utils.toArray(".timeline-item");
+        items.forEach((item: any, index: number) => {
+          gsap.fromTo(
+            item,
+            {
+              opacity: 0,
+              x: index % 2 === 0 ? -50 : 50,
+            },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.8,
+              scrollTrigger: {
+                trigger: item,
+                start: "top 80%",
+                end: "top 50%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          );
+        });
+      }, sectionRef);
+
+      return () => ctx.revert();
+    };
+
+    loadGsap();
   }, []);
 
   const timelineData = [
