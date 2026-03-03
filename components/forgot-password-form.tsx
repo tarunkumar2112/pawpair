@@ -2,16 +2,9 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -31,7 +24,6 @@ export function ForgotPasswordForm({
     setError(null);
 
     try {
-      // The url which will be included in the email. This URL needs to be configured in your redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/update-password`,
       });
@@ -46,60 +38,98 @@ export function ForgotPasswordForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      {success ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Check Your Email</CardTitle>
-            <CardDescription>Password reset instructions sent</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              If you registered using your email and password, you will receive
-              a password reset email.
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-            <CardDescription>
-              Type in your email and we&apos;ll send you a link to reset your
-              password
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleForgotPassword}>
-              <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
+      <div className="flex flex-col items-center gap-2 mb-2">
+        <Link href="/">
+          <Image src="/logo.png" alt="PawPair" width={160} height={40} className="h-12 w-auto" />
+        </Link>
+        <p className="text-[#2F3E4E] text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+          Pet care, perfectly matched.
+        </p>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+        {success ? (
+          <div className="px-8 py-10 flex flex-col items-center text-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
+              <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div>
+              <h2
+                className="text-[#2F3E4E] text-xl font-semibold mb-2"
+                style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
+              >
+                Check your email
+              </h2>
+              <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+                If you registered with this email, you'll receive a password reset link shortly.
+              </p>
+            </div>
+            <Link
+              href="/auth/login"
+              className="mt-2 text-[#5F7E9D] text-sm font-medium hover:underline"
+            >
+              Back to Sign In
+            </Link>
+          </div>
+        ) : (
+          <>
+            <div className="px-8 pt-8 pb-2">
+              <h1
+                className="text-[#2F3E4E] text-2xl font-semibold mb-1"
+                style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
+              >
+                Reset your password
+              </h1>
+              <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+                Enter your email and we'll send you a reset link
+              </p>
+            </div>
+
+            <div className="px-8 pb-8 pt-6">
+              <form onSubmit={handleForgotPassword} className="flex flex-col gap-5">
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="email" className="text-[#2F3E4E] text-sm font-medium">
+                    Email
+                  </Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder="you@example.com"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="h-11 rounded-xl border-gray-200 focus:border-[#5F7E9D] focus:ring-[#5F7E9D] text-[#2F3E4E]"
                   />
                 </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Sending..." : "Send reset email"}
-                </Button>
-              </div>
-              <div className="mt-4 text-center text-sm">
-                Already have an account?{" "}
-                <Link
-                  href="/auth/login"
-                  className="underline underline-offset-4"
+
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                    <p className="text-sm text-red-600">{error}</p>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-11 bg-[#5F7E9D] text-white font-medium text-[16px] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed mt-1"
+                  style={{ fontFamily: "Inter, sans-serif" }}
                 >
-                  Login
-                </Link>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      )}
+                  {isLoading ? "Sending..." : "Send Reset Link"}
+                </button>
+
+                <p className="text-center text-sm text-gray-500" style={{ fontFamily: "Inter, sans-serif" }}>
+                  Remember your password?{" "}
+                  <Link href="/auth/login" className="text-[#5F7E9D] font-medium hover:underline">
+                    Sign in
+                  </Link>
+                </p>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -2,16 +2,9 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -58,63 +51,99 @@ export function SignUpForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Sign up</CardTitle>
-          <CardDescription>Create a new account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSignUp}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="repeat-password">Repeat Password</Label>
-                </div>
-                <Input
-                  id="repeat-password"
-                  type="password"
-                  required
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating an account..." : "Sign up"}
-              </Button>
+      <div className="flex flex-col items-center gap-2 mb-2">
+        <Link href="/">
+          <Image src="/logo.png" alt="PawPair" width={160} height={40} className="h-12 w-auto" />
+        </Link>
+        <p className="text-[#2F3E4E] text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+          Pet care, perfectly matched.
+        </p>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+        <div className="px-8 pt-8 pb-2">
+          <h1
+            className="text-[#2F3E4E] text-2xl font-semibold mb-1"
+            style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
+          >
+            Create an account
+          </h1>
+          <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+            Join PawPair and find the perfect care for your dog
+          </p>
+        </div>
+
+        <div className="px-8 pb-8 pt-6">
+          <form onSubmit={handleSignUp} className="flex flex-col gap-5">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="email" className="text-[#2F3E4E] text-sm font-medium">
+                Email
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-11 rounded-xl border-gray-200 focus:border-[#5F7E9D] focus:ring-[#5F7E9D] text-[#2F3E4E]"
+              />
             </div>
-            <div className="mt-4 text-center text-sm">
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="password" className="text-[#2F3E4E] text-sm font-medium">
+                Password
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="h-11 rounded-xl border-gray-200 focus:border-[#5F7E9D] focus:ring-[#5F7E9D] text-[#2F3E4E]"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="repeat-password" className="text-[#2F3E4E] text-sm font-medium">
+                Confirm Password
+              </Label>
+              <Input
+                id="repeat-password"
+                type="password"
+                placeholder="••••••••"
+                required
+                value={repeatPassword}
+                onChange={(e) => setRepeatPassword(e.target.value)}
+                className="h-11 rounded-xl border-gray-200 focus:border-[#5F7E9D] focus:ring-[#5F7E9D] text-[#2F3E4E]"
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full h-11 bg-[#5F7E9D] text-white font-medium text-[16px] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed mt-1"
+              style={{ fontFamily: "Inter, sans-serif" }}
+            >
+              {isLoading ? "Creating account..." : "Create Account"}
+            </button>
+
+            <p className="text-center text-sm text-gray-500" style={{ fontFamily: "Inter, sans-serif" }}>
               Already have an account?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4">
-                Login
+              <Link href="/auth/login" className="text-[#5F7E9D] font-medium hover:underline">
+                Sign in
               </Link>
-            </div>
+            </p>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
