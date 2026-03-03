@@ -1,36 +1,37 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { PWAInstaller } from "@/components/pwa-installer";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+const APP_NAME = "PawPair";
+const APP_TITLE = "PawPair - Pet Care, Perfectly Matched";
+const APP_DESCRIPTION =
+  "Compatibility-based dog care, starting local and built thoughtfully.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "PawPair - Pet Care, Perfectly Matched",
-  description: "Compatibility-based dog care, starting local and built thoughtfully.",
-  applicationName: "PawPair",
+  applicationName: APP_NAME,
+  title: APP_TITLE,
+  description: APP_DESCRIPTION,
+  manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "PawPair",
+    title: APP_TITLE,
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: "website",
-    siteName: "PawPair",
-    title: "PawPair - Pet Care, Perfectly Matched",
-    description: "Compatibility-based dog care, starting local and built thoughtfully.",
+    siteName: APP_NAME,
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
   },
   twitter: {
     card: "summary",
-    title: "PawPair - Pet Care, Perfectly Matched",
-    description: "Compatibility-based dog care, starting local and built thoughtfully.",
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
   },
   icons: {
     icon: [
@@ -42,6 +43,10 @@ export const metadata: Metadata = {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#5F7E9D",
 };
 
 const geistSans = Geist({
@@ -57,7 +62,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`} suppressHydrationWarning>
+      <body
+        className={`${geistSans.className} antialiased`}
+        suppressHydrationWarning
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
