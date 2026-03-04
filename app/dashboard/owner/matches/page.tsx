@@ -140,7 +140,7 @@ export default async function OwnerMatchesPage({
       {matches && matches.length > 0 && (
         <div className="flex flex-col gap-4">
           {matches.map((match) => {
-            const caregiver = match.caregivers as {
+            const caregiver = (match.caregivers as unknown) as {
               id: string; bio: string | null; experience_years: number | null;
               services: string[] | null; city: string | null; availability: string | null;
               profiles: { full_name: string | null } | null;
