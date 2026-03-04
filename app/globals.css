@@ -67,3 +67,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@font-face {
+  font-family: 'Modern Sans';
+  src: url('./Fonts/ModernSans.woff2') format('woff2'),
+       url('./Fonts/ModernSans.woff') format('woff'),
+       url('./Fonts/ModernSans.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+ .header-row .logo {  width: 229px;  max-width: 100%; }
+ .header-row .logo img { width: 100%;  object-fit: cover; height: 100%;}
+
+ @media only screen and (max-width: 1024px) {
+.header-row .logo img {
+    max-width: 180px;
+}
+ }
+
+ @media only screen and (max-width: 767px) {
+.home-banner {
+    height: auto !important;
+}
+ }

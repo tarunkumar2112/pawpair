@@ -18,27 +18,27 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden">
+    <section className="relative w-full overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="home-banner absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/Background.png')",
+          backgroundImage: "url('/Background.png')", height:641, 
           backgroundColor: "#F6F2EA",
         }}
       />
 
-      <div className="relative z-10 w-full min-h-screen flex items-center">
+      <div className="relative z-10 w-full flex items-center">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-8 py-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="flex flex-col md:flex-row gap-[50px] items-center">
             <div
-              className={`order-2 lg:order-1 flex justify-center lg:justify-start transition-all duration-1000 ${
+              className={`w-full order-2 md:order-1 lg:order-1 flex justify-center  md:max-w-[476px] lg:justify-start  transition-all duration-1000 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
               style={{ transitionDelay: "200ms" }}
             >
-              <div className="relative w-full max-w-[450px] lg:max-w-[500px]">
+              <div className="relative w-full max-w-full">
                 <Image
                   src="/left-dog.png"
                   alt="Happy dog"
@@ -51,7 +51,7 @@ export function HeroSection() {
             </div>
 
             <div
-              className={`order-1 lg:order-2 space-y-6 transition-all duration-1000 ${
+              className={` w-full order-1 md:order-2 lg:order-2 space-y-6 md:max-w-[793px] transition-all duration-1000 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
@@ -59,29 +59,28 @@ export function HeroSection() {
               style={{ transitionDelay: "400ms" }}
             >
               <h1 
-                className="text-[#2F3E4E] font-semibold text-[36px] sm:text-[48px] lg:text-[60px] leading-[120%] tracking-[0%]"
-                style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif", fontWeight: 600 }}
+                className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[45px] xl:text-[60px] leading-[120%] text-[#2F3E4E]"
               >
                 Pet care, perfectly matched.
               </h1>
 
               <p 
-                className="text-[#2F3E4E] font-normal text-[16px] sm:text-[18px] leading-[120%] tracking-[0%] max-w-[500px]"
-                style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
+                className="font-inter font-normal text-[18px] leading-[120%] text-[#4A5563]"
+                
               >
                 The trusted starting place for new dog parents.
               </p>
 
               <button 
-                className="mt-8 px-8 py-3.5 bg-[#5F7E9D] text-white font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
-                style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
+                className="mt-8 px-8 py-3.5 bg-[#5F7E9D] text-white font-modern text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
+                
               >
                 Find Care That Fits
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </div> 
 
       <button
         onClick={scrollToBottom}
