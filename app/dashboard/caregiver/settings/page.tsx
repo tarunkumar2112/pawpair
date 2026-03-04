@@ -20,20 +20,21 @@ export default async function CaregiverSettingsPage() {
     .single();
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <div className="flex items-center gap-2 text-sm text-gray-400 mb-2" style={{ fontFamily: "Inter, sans-serif" }}>
-          <Link href="/dashboard/caregiver" className="hover:text-[#5F7E9D] transition-colors">Dashboard</Link>
-          <span>›</span>
-          <span className="text-[#2F3E4E]">Account Settings</span>
-        </div>
+    <div className="flex flex-col gap-8">
+      <div className="flex items-center gap-2 text-sm text-gray-400" style={{ fontFamily: "Inter, sans-serif" }}>
+        <Link href="/dashboard/caregiver" className="hover:text-[#5F7E9D] transition-colors">Dashboard</Link>
+        <span>›</span>
+        <span className="text-[#2F3E4E]">Account Settings</span>
+      </div>
+
+      <div className="text-center max-w-xl mx-auto">
         <h1
           className="text-[#2F3E4E] text-[32px] font-semibold leading-[120%]"
           style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
         >
           Account Settings ⚙️
         </h1>
-        <p className="text-gray-500 text-[16px] mt-1" style={{ fontFamily: "Inter, sans-serif" }}>
+        <p className="text-gray-500 text-[16px] mt-2" style={{ fontFamily: "Inter, sans-serif" }}>
           Manage your profile and security settings
         </p>
       </div>
