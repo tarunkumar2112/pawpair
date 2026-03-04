@@ -54,7 +54,7 @@ export function CaregiverSection() {
       className="w-full py-[60px] md:py-[80px] bg-white"
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
-        <div className="flex flex-col items-center md:gap-[40px] lg:gap-[30px] md:flex-row xl:gap-[50px]">
+        <div className="flex flex-col items-center gap-[30px] md:gap-[40px] lg:gap-[30px] md:flex-col lg:flex-row xl:gap-[50px]">
           <div
             className={`w-full flex md:max-w-full lg:justify-start lg:max-w-[400px] xl:max-w-[536px] transition-all duration-1000 ${
               isVisible
@@ -74,7 +74,7 @@ export function CaregiverSection() {
           </div>
 
           <div
-            className={`w-full md:max-w-[744px] transition-all duration-1000 ${
+            className={`w-full md:max-w-full lg:max-w-[744px] transition-all duration-1000 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-10"

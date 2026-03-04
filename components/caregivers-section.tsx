@@ -41,48 +41,44 @@ export function CaregiversSection() {
   return (
     <section
       ref={sectionRef}
-      className="w-full py-16 md:py-24 lg:py-32 bg-[#5F7E9D]"
+      className="w-full py-[60px] bg-[#5F7E9D]"
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="care-gives flex flex-col items-center gap-[40px] md:flex-col lg:flex-row">
           <div
-            className={`transition-all duration-1000 ${
+            className={`w-full flex md:max-w-full lg:justify-start lg:max-w-[400px] xl:max-w-[546px] transition-all duration-1000 opacity-100  transition-all duration-1000 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 -translate-x-10"
             }`}
           >
-            <div className="relative w-full max-w-[500px] mx-auto lg:mx-0">
+            <div className="relative w-full md:max-w-full lg:max-w-[546px] mx-auto lg:mx-0">
               <Image
                 src="/petcuddle.png"
                 alt="Caregivers with dog"
-                width={500}
-                height={600}
+                width={546}
+                height={566}
                 className="w-full h-auto rounded-[20px]"
               />
             </div>
           </div>
 
           <div
-            className={`space-y-6 transition-all duration-1000 ${
+            className={`w-full md:max-w-full lg:max-w-[744px] transition-all duration-1000 opacity-100 translate-x-0 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-10"
             }`}
           >
             <h2
-              className="text-white font-semibold text-[36px] sm:text-[42px] lg:text-[48px] leading-[120%] tracking-[0%]"
-              style={{
-                fontFamily:
-                  "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif",
-                fontWeight: 600,
-              }}
+              className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[40px] xl:text-[44px] leading-[120%] text-[#fff]"
+              
             >
               Caregivers Who Care Deeply
             </h2>
 
             <p
-              className="text-white font-normal text-[16px] sm:text-[18px] leading-[120%] tracking-[0%]"
+              className="text-[16px] !mt-5 font-sans font-normal md:text-[18px] leading-[120%] text-[#fff]"
               style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
             >
               Our caregivers aren't just available — they're experienced,
@@ -90,14 +86,10 @@ export function CaregiversSection() {
               dogs they care for.
             </p>
 
-            <div className="space-y-4 pt-4">
+            <div className="!mt-6">
               <h3
-                className="text-white font-semibold text-[18px] sm:text-[20px] leading-[120%] tracking-[0%]"
-                style={{
-                  fontFamily:
-                    "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif",
-                  fontWeight: 600,
-                }}
+                className=" text-[18px] !text-[#fff]  font-modern font-normal leading-[120%] mb-5  md:text-[20px] xl:text-[24px]"
+               
               >
                 Many are:
               </h3>
@@ -106,7 +98,7 @@ export function CaregiversSection() {
                 {caregiverTypes.map((item, index) => (
                   <div
                     key={index}
-                    className={`flex items-center gap-3 transition-all duration-700`}
+                    className={`flex items-center gap-3 !mt-5 transition-all duration-700`}
                     style={{
                       transitionDelay: `${(index + 1) * 100}ms`,
                       opacity: isVisible ? 1 : 0,
@@ -128,11 +120,9 @@ export function CaregiversSection() {
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
                     </div>
-                    <p
-                      className="text-white font-normal text-[16px] sm:text-[18px] leading-[120%] tracking-[0%]"
-                      style={{
-                        fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
-                      }}
+                    <p    
+                      className="text-[18px] font-['Modern_Sans']  font-normal md:text-[18px] leading-[120%]  text-[#CFD8E2]"
+                     
                     >
                       {item}
                     </p>
@@ -142,7 +132,7 @@ export function CaregiversSection() {
             </div>
 
             <p
-              className="text-white font-normal text-[16px] sm:text-[18px] leading-[120%] tracking-[0%] pt-4"
+              className="text-[16px] !mt-5 font-sans font-normal md:text-[18px] leading-[120%] text-[#fff]"
               style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
             >
               We prioritize heart, patience, and experience.
