@@ -112,15 +112,14 @@ export async function submitQuizAndMatch(quiz: QuizData): Promise<{
     return { success: false, error: dogError?.message ?? "Failed to save dog" };
   }
 
-  // 2. Fetch all approved caregivers with their profile names
+  // 2. Fetch all caregivers with their profile names
   const { data: caregivers } = await supabase
     .from("caregivers")
     .select(`
       id, bio, experience_years, accepts_sizes, accepts_temperaments,
       services, city, availability,
       profiles ( full_name )
-    `)
-    .eq("is_approved", true);
+    `);
 
   if (!caregivers || caregivers.length === 0) {
     return { success: true, dogId: dog.id, matches: [] };
@@ -202,8 +201,7 @@ export async function rematchExistingDog(dogId: string): Promise<{
 
   const { data: caregivers } = await supabase
     .from("caregivers")
-    .select(`id, bio, experience_years, accepts_sizes, accepts_temperaments, services, city, availability, profiles ( full_name )`)
-    .eq("is_approved", true);
+    .select(`id, bio, experience_years, accepts_sizes, accepts_temperaments, services, city, availability, profiles ( full_name )`);
 
   if (!caregivers || caregivers.length === 0) return { success: true, dogId: dog.id, matches: [] };
 

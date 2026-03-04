@@ -51,29 +51,8 @@ export default async function CaregiverMatchesPage() {
     );
   }
 
-  if (!caregiverProfile.is_approved) {
-    return (
-      <div className="flex flex-col gap-6">
-        <h1 className="text-[#2F3E4E] text-[32px] font-semibold" style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}>
-          My Matches
-        </h1>
-        <div className="bg-white rounded-2xl p-12 border border-gray-100 shadow-sm flex flex-col items-center text-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center text-3xl">🕐</div>
-          <div>
-            <h2 className="text-[#2F3E4E] text-xl font-semibold mb-1" style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}>
-              Application under review
-            </h2>
-            <p className="text-gray-500 text-sm max-w-sm" style={{ fontFamily: "Inter, sans-serif" }}>
-              You&apos;ll be able to see dog matches once your application is approved by our team.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Fetch matches
-  const { data: matches } = await supabase
+  // Fetch matches (show regardless of approval — pending caregivers can preview)
+  const { data: matchesRaw } = await supabase
     .from("matches")
     .select(`
       id, total_score, compatibility_tier, match_status,
@@ -84,8 +63,16 @@ export default async function CaregiverMatchesPage() {
         profiles ( full_name )
       )
     `)
-    .eq("caregiver_id", caregiverProfile.id)
-    .order("total_score", { ascending: false });
+    .eq("caregiver_id", caregiverProfile.id);
+
+  // Sort client-side to avoid issues with generated column ordering
+  const matches = matchesRaw
+    ? [...matchesRaw].sort((a, b) => {
+        const sumA = (a.location_score ?? 0) + (a.size_score ?? 0) + (a.temperament_score ?? 0) + (a.availability_score ?? 0) + (a.experience_score ?? 0);
+        const sumB = (b.location_score ?? 0) + (b.size_score ?? 0) + (b.temperament_score ?? 0) + (b.availability_score ?? 0) + (b.experience_score ?? 0);
+        return sumB - sumA;
+      })
+    : null;
 
   return (
     <div className="flex flex-col gap-6">

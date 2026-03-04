@@ -71,7 +71,7 @@ export default async function OwnerMatchesPage({
   const activeDog = dogs.find((d) => d.id === selectedDogId) ?? dogs[0];
 
   // Fetch matches for the active dog — join caregivers and profiles
-  const { data: matches } = await supabase
+  const { data: matchesRaw } = await supabase
     .from("matches")
     .select(`
       id, total_score, compatibility_tier, match_status,
@@ -81,8 +81,16 @@ export default async function OwnerMatchesPage({
         profiles ( full_name )
       )
     `)
-    .eq("dog_id", activeDog.id)
-    .order("total_score", { ascending: false });
+    .eq("dog_id", activeDog.id);
+
+  // Sort client-side by computed sum (generated columns can't always be ordered via PostgREST)
+  const matches = matchesRaw
+    ? [...matchesRaw].sort((a, b) => {
+        const sumA = (a.location_score ?? 0) + (a.size_score ?? 0) + (a.temperament_score ?? 0) + (a.availability_score ?? 0) + (a.experience_score ?? 0);
+        const sumB = (b.location_score ?? 0) + (b.size_score ?? 0) + (b.temperament_score ?? 0) + (b.availability_score ?? 0) + (b.experience_score ?? 0);
+        return sumB - sumA;
+      })
+    : null;
 
   return (
     <div className="flex flex-col gap-6">
