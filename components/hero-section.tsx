@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function HeroSection() {
@@ -72,12 +73,13 @@ export function HeroSection() {
                 The trusted starting place for new dog parents.
               </p>
 
-              <button 
-                className="mt-8 px-8 py-3.5 bg-[#5F7E9D] text-white font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
+              <Link
+                href="/find-care"
+                className="mt-8 inline-block px-8 py-3.5 bg-[#5F7E9D] text-white font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
                 style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
               >
                 Find Care That Fits
-              </button>
+              </Link>
             </div>
           </div>
         </div>

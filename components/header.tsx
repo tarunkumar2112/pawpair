@@ -47,7 +47,7 @@ export function Header() {
               Contact
             </Link>
             <Link
-              href="/auth/sign-up"
+              href="/find-care"
               className="px-6 py-3 bg-[#5F7E9D] text-white font-modern font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
             >
               Find Care That Fits
@@ -91,7 +91,7 @@ export function Header() {
               Contact
             </Link>
             <Link
-              href="/auth/sign-up"
+              href="/find-care"
               className="block w-full text-center px-6 py-3 bg-[#5F7E9D] text-white font-modern font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
               onClick={() => setIsMenuOpen(false)}
             >
