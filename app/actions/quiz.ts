@@ -158,7 +158,7 @@ export async function submitQuizAndMatch(quiz: QuizData): Promise<{
 
   // 4. Upsert matches into the matches table
   if (scoredMatches.length > 0) {
-    await supabase.from("matches").upsert(
+    const { error: upsertError } = await supabase.from("matches").upsert(
       scoredMatches.map((m) => ({
         dog_id: dog.id,
         caregiver_id: m.caregiver_id,
@@ -171,6 +171,10 @@ export async function submitQuizAndMatch(quiz: QuizData): Promise<{
       })),
       { onConflict: "dog_id,caregiver_id" }
     );
+    if (upsertError) {
+      console.error("[quiz] matches upsert failed:", upsertError.message);
+      return { success: false, error: `Matches could not be saved: ${upsertError.message}` };
+    }
   }
 
   return { success: true, dogId: dog.id, matches: scoredMatches };
@@ -235,7 +239,7 @@ export async function rematchExistingDog(dogId: string): Promise<{
   scoredMatches.sort((a, b) => b.total_score - a.total_score);
 
   if (scoredMatches.length > 0) {
-    await supabase.from("matches").upsert(
+    const { error: upsertError } = await supabase.from("matches").upsert(
       scoredMatches.map((m) => ({
         dog_id: dog.id,
         caregiver_id: m.caregiver_id,
@@ -248,6 +252,10 @@ export async function rematchExistingDog(dogId: string): Promise<{
       })),
       { onConflict: "dog_id,caregiver_id" }
     );
+    if (upsertError) {
+      console.error("[rematch] matches upsert failed:", upsertError.message);
+      return { success: false, error: `Matches could not be saved: ${upsertError.message}` };
+    }
   }
 
   return { success: true, dogId: dog.id, matches: scoredMatches };
