@@ -134,7 +134,7 @@ export async function submitQuizAndMatch(quiz: QuizData): Promise<{
     const avail = calcAvailabilityScore(quiz.availability, cg.availability);
     const exp  = calcExperienceScore(cg.experience_years);
     const total = loc + size + temp + avail + exp;
-    const profile = cg.profiles as { full_name: string | null } | null;
+    const profile = (cg.profiles as unknown) as { full_name: string | null } | null;
 
     return {
       caregiver_id: cg.id,
