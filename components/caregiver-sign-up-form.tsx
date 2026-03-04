@@ -39,7 +39,7 @@ export function CaregiverSignUpForm({
         password,
         options: {
           data: { full_name: fullName, role: "caregiver" },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin}/auth/callback?next=/dashboard`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin}/auth/callback?next=/onboarding/caregiver`,
         },
       });
       if (error) throw error;
