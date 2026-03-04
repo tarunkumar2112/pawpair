@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { submitQuizAndMatch, type QuizData, type MatchResult } from "@/app/actions/quiz";
+import { submitQuizAndMatch, rematchExistingDog, type QuizData, type MatchResult } from "@/app/actions/quiz";
+
+export interface ExistingDog {
+  id: string;
+  name: string;
+  breed: string | null;
+  size: string | null;
+}
 
 const TOTAL_STEPS = 7;
 
@@ -124,13 +131,20 @@ function NavButtons({
   );
 }
 
-export function DogQuiz() {
+const SIZE_LABELS: Record<string, string> = { small: "Small 🐩", medium: "Medium 🐕", large: "Large 🦴" };
+
+export function DogQuiz({ existingDogs = [] }: { existingDogs?: ExistingDog[] }) {
   const router = useRouter();
+  // "choose" | "new" | number (step 1-7)
+  const [mode, setMode] = useState<"choose" | "new" | number>(
+    existingDogs.length > 0 ? "choose" : 1
+  );
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [matches, setMatches] = useState<MatchResult[] | null>(null);
   const [dogId, setDogId] = useState<string | null>(null);
+  const [selectedExistingDog, setSelectedExistingDog] = useState<ExistingDog | null>(null);
 
   // Form state
   const [name, setName] = useState("");
@@ -158,7 +172,21 @@ export function DogQuiz() {
   };
 
   const handleNext = () => { if (canNext()) setStep((s) => s + 1); };
-  const handleBack = () => setStep((s) => s - 1);
+  const handleBack = () => {
+    if (step === 1 && existingDogs.length > 0) { setMode("choose"); return; }
+    setStep((s) => s - 1);
+  };
+
+  const handleRematch = async (dog: ExistingDog) => {
+    setSelectedExistingDog(dog);
+    setIsLoading(true);
+    setError(null);
+    const result = await rematchExistingDog(dog.id);
+    setIsLoading(false);
+    if (!result.success) { setError(result.error ?? "Something went wrong."); return; }
+    setDogId(result.dogId ?? null);
+    setMatches(result.matches ?? []);
+  };
 
   const handleSubmit = async () => {
     if (!size) return;
@@ -188,6 +216,90 @@ export function DogQuiz() {
   };
 
   const dogName = name || "your dog";
+
+  // ── LOADING (rematch) ────────────────────────────────────────────────────
+  if (isLoading && selectedExistingDog) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-6">
+        <div className="text-6xl animate-bounce">🐾</div>
+        <div className="text-center">
+          <h2 className="text-[#2F3E4E] text-2xl font-semibold mb-2" style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}>
+            Refreshing matches for {selectedExistingDog.name}...
+          </h2>
+          <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>Scoring caregivers based on compatibility</p>
+        </div>
+        <div className="flex gap-2">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="w-3 h-3 rounded-full bg-[#5F7E9D] animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ── CHOOSE MODE (existing dogs) ───────────────────────────────────────────
+  if (mode === "choose") {
+    return (
+      <div className="flex flex-col gap-6">
+        <div>
+          <h2 className="text-[#2F3E4E] text-[28px] font-semibold mb-1" style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}>
+            Which dog needs care? 🐾
+          </h2>
+          <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+            Select an existing dog to refresh their matches, or add a new one
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          {existingDogs.map((dog) => (
+            <button
+              key={dog.id}
+              type="button"
+              onClick={() => handleRematch(dog)}
+              className="flex items-center gap-4 p-5 bg-white rounded-2xl border-2 border-gray-200 hover:border-[#5F7E9D] transition-all text-left group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#F6F2EA] flex items-center justify-center text-2xl flex-shrink-0 group-hover:bg-[#5F7E9D]/10">
+                🐾
+              </div>
+              <div className="flex-1">
+                <p className="text-[#2F3E4E] font-semibold text-[16px]" style={{ fontFamily: "Inter, sans-serif" }}>{dog.name}</p>
+                <p className="text-gray-400 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+                  {[dog.breed, dog.size ? SIZE_LABELS[dog.size] : null].filter(Boolean).join(" · ") || "Mixed breed"}
+                </p>
+              </div>
+              <span className="text-[#5F7E9D] text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity" style={{ fontFamily: "Inter, sans-serif" }}>
+                Refresh matches →
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <div className="relative flex items-center gap-4">
+          <div className="flex-1 h-px bg-gray-200" />
+          <span className="text-gray-400 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>or</span>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
+
+        <button
+          type="button"
+          onClick={() => { setMode("new"); setStep(1); }}
+          className="flex items-center justify-center gap-3 p-5 rounded-2xl border-2 border-dashed border-[#5F7E9D]/40 hover:border-[#5F7E9D] hover:bg-[#5F7E9D]/5 transition-all"
+        >
+          <span className="text-2xl">➕</span>
+          <div className="text-left">
+            <p className="text-[#5F7E9D] font-semibold text-[15px]" style={{ fontFamily: "Inter, sans-serif" }}>Add a new dog</p>
+            <p className="text-gray-400 text-xs" style={{ fontFamily: "Inter, sans-serif" }}>Fill out the quiz for a different dog</p>
+          </div>
+        </button>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+            <p className="text-sm text-red-600" style={{ fontFamily: "Inter, sans-serif" }}>{error}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   // ── RESULTS VIEW ─────────────────────────────────────────────────────────
   if (matches !== null) {
@@ -385,6 +497,7 @@ export function DogQuiz() {
   return (
     <div>
       <ProgressBar step={step} />
+
 
       {/* ── Step 1: Name & Breed ─────────────────────────────────────────── */}
       {step === 1 && (

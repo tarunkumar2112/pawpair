@@ -55,6 +55,13 @@ async function OwnerGreeting() {
         <p className="text-gray-500 text-[16px] mt-1" style={{ fontFamily: "Inter, sans-serif" }}>
           Find the perfect caregiver for your dog
         </p>
+        <Link
+          href="/find-care"
+          className="mt-4 inline-flex items-center gap-2 h-12 px-7 bg-[#5F7E9D] text-white font-medium text-[15px] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
+          style={{ fontFamily: "Inter, sans-serif" }}
+        >
+          🔍 Find Care That Fits
+        </Link>
       </div>
 
       {/* Stats */}
@@ -129,13 +136,22 @@ async function OwnerGreeting() {
               Browse caregivers matched to your dog&apos;s energy, size, and temperament
             </p>
           </div>
-          <Link
-            href="/dashboard/owner/matches"
-            className="mt-auto inline-flex items-center justify-center h-11 px-6 bg-[#5F7E9D] text-white font-medium text-[15px] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300 w-fit"
-            style={{ fontFamily: "Inter, sans-serif" }}
-          >
-            View Matches →
-          </Link>
+          <div className="mt-auto flex gap-3 flex-wrap">
+            <Link
+              href="/find-care"
+              className="inline-flex items-center justify-center h-11 px-6 bg-[#5F7E9D] text-white font-medium text-[15px] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
+              style={{ fontFamily: "Inter, sans-serif" }}
+            >
+              Start Quiz →
+            </Link>
+            <Link
+              href="/dashboard/owner/matches"
+              className="inline-flex items-center justify-center h-11 px-6 bg-white text-[#5F7E9D] font-medium text-[15px] rounded-[10px] border-2 border-[#5F7E9D]/30 hover:border-[#5F7E9D] transition-all duration-300"
+              style={{ fontFamily: "Inter, sans-serif" }}
+            >
+              View Matches
+            </Link>
+          </div>
         </div>
       </div>
 

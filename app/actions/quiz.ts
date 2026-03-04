@@ -176,3 +176,81 @@ export async function submitQuizAndMatch(quiz: QuizData): Promise<{
 
   return { success: true, dogId: dog.id, matches: scoredMatches };
 }
+
+// Re-run matching for an existing dog (no new dog created)
+export async function rematchExistingDog(dogId: string): Promise<{
+  success: boolean;
+  dogId?: string;
+  matches?: MatchResult[];
+  error?: string;
+}> {
+  const supabase = await createClient();
+  const { data: claimsData } = await supabase.auth.getClaims();
+  if (!claimsData?.claims) return { success: false, error: "Not authenticated" };
+
+  const userId = claimsData.claims.sub as string;
+
+  // Verify dog belongs to this owner
+  const { data: dog } = await supabase
+    .from("dogs")
+    .select("id, size, temperament, city, availability")
+    .eq("id", dogId)
+    .eq("owner_id", userId)
+    .single();
+
+  if (!dog) return { success: false, error: "Dog not found" };
+
+  const { data: caregivers } = await supabase
+    .from("caregivers")
+    .select(`id, bio, experience_years, accepts_sizes, accepts_temperaments, services, city, availability, profiles ( full_name )`)
+    .eq("is_approved", true);
+
+  if (!caregivers || caregivers.length === 0) return { success: true, dogId: dog.id, matches: [] };
+
+  const scoredMatches = caregivers.map((cg) => {
+    const loc   = calcLocationScore(dog.city ?? "", cg.city);
+    const size  = calcSizeScore(dog.size ?? "", cg.accepts_sizes);
+    const temp  = calcTemperamentScore(dog.temperament ?? [], cg.accepts_temperaments);
+    const avail = calcAvailabilityScore(dog.availability ?? "", cg.availability);
+    const exp   = calcExperienceScore(cg.experience_years);
+    const total = loc + size + temp + avail + exp;
+    const profile = (cg.profiles as unknown) as { full_name: string | null } | null;
+
+    return {
+      caregiver_id: cg.id,
+      caregiver_name: profile?.full_name ?? "Caregiver",
+      bio: cg.bio,
+      experience_years: cg.experience_years,
+      services: cg.services,
+      city: cg.city,
+      availability: cg.availability,
+      total_score: total,
+      compatibility_tier: getTier(total),
+      location_score: loc,
+      size_score: size,
+      temperament_score: temp,
+      availability_score: avail,
+      experience_score: exp,
+    } satisfies MatchResult;
+  });
+
+  scoredMatches.sort((a, b) => b.total_score - a.total_score);
+
+  if (scoredMatches.length > 0) {
+    await supabase.from("matches").upsert(
+      scoredMatches.map((m) => ({
+        dog_id: dog.id,
+        caregiver_id: m.caregiver_id,
+        location_score: m.location_score,
+        size_score: m.size_score,
+        temperament_score: m.temperament_score,
+        availability_score: m.availability_score,
+        experience_score: m.experience_score,
+        match_status: "suggested",
+      })),
+      { onConflict: "dog_id,caregiver_id" }
+    );
+  }
+
+  return { success: true, dogId: dog.id, matches: scoredMatches };
+}

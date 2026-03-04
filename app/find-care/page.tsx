@@ -11,6 +11,7 @@ export default async function FindCarePage() {
   const { data: claimsData } = await supabase.auth.getClaims();
 
   // Logged in as caregiver → send to their dashboard
+  let existingDogs: { id: string; name: string; breed: string | null; size: string | null }[] = [];
   if (claimsData?.claims) {
     const userId = claimsData.claims.sub as string;
     const { data: profile } = await supabase
@@ -22,6 +23,14 @@ export default async function FindCarePage() {
     if (profile?.role === "caregiver") {
       redirect("/dashboard/caregiver");
     }
+
+    // Fetch existing dogs for this owner
+    const { data: dogs } = await supabase
+      .from("dogs")
+      .select("id, name, breed, size")
+      .eq("owner_id", userId)
+      .order("created_at", { ascending: false });
+    existingDogs = dogs ?? [];
   }
 
   const isLoggedIn = !!claimsData?.claims;
@@ -35,13 +44,21 @@ export default async function FindCarePage() {
             <Link href="/">
               <Image src="/logo.png" alt="PawPair" width={200} height={50} className="h-12 w-auto" priority />
             </Link>
-            {!isLoggedIn && (
+            {!isLoggedIn ? (
               <Link
                 href="/auth/login"
                 className="text-[#5F7E9D] text-sm font-medium hover:underline"
                 style={{ fontFamily: "Inter, sans-serif" }}
               >
                 Already have an account? Sign in
+              </Link>
+            ) : (
+              <Link
+                href="/dashboard/owner"
+                className="text-[#5F7E9D] text-sm font-medium hover:underline"
+                style={{ fontFamily: "Inter, sans-serif" }}
+              >
+                ← Back to Dashboard
               </Link>
             )}
           </div>
@@ -130,7 +147,7 @@ export default async function FindCarePage() {
             </div>
 
             <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-              <DogQuiz />
+              <DogQuiz existingDogs={existingDogs} />
             </div>
           </div>
         )}
