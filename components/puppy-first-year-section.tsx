@@ -181,7 +181,7 @@ export function PuppyFirstYearSection() {
       ref={sectionRef}
       className="w-full py-[60px] md:py-[70px] lg:py-[80px] bg-[#5F7E9D] relative overflow-hidden"
     >
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="week-by-week-main max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16 items-stretch">
 
           {/* ══════════ LEFT 70% — Heading + Text + Image ══════════ */}
@@ -220,7 +220,7 @@ export function PuppyFirstYearSection() {
           </div>
 
           {/* ══════════ RIGHT 30% — Bone + Cards + Timeline ══════════ */}
-          <div className="relative w-full lg:w-[30%] flex flex-col">
+          <div className="pupy-right-cols relative w-full lg:w-[30%] flex flex-col">
             {/* Bone icon — absolute top-right */}
             <div className="bone-icon absolute -top-2 right-2 w-[50px] h-[50px] md:w-[58px] md:h-[58px] lg:w-[64px] lg:h-[64px] z-20">
               <Image
@@ -232,7 +232,7 @@ export function PuppyFirstYearSection() {
             </div>
 
             {/* Timeline container */}
-            <div className="relative flex-1 pt-6">
+            <div className="relative flex-1 pt-[6.5rem]">
               {/* Faded background line (track) */}
               <div
                 className="absolute right-[28px] md:right-[32px] top-[28px] bottom-[28px] w-[3px] bg-white/20 rounded-full"
@@ -251,15 +251,15 @@ export function PuppyFirstYearSection() {
                     {/* White rounded card */}
                     <div
                       ref={(el) => { cardsRef.current[index] = el; }}
-                      className="bg-white rounded-[16px] px-5 py-4 shadow-lg
+                      className="bg-white rounded-[20px] px-5 py-4 shadow-lg
                                  transition-all duration-300 hover:shadow-xl hover:-translate-y-1 
                                  cursor-default relative group"
                     >
-                      <h3 className="font-['Modern_Sans'] font-semibold text-[17px] md:text-[19px] leading-[120%] text-[#1a1a1a] mb-1">
+                      <h3 className=" text-[18px] !text-[#000000]  font-modern font-normal leading-[120%] mb-5  md:text-[20px] xl:text-[24px] mb-[15px]">
                         {item.label}
                       </h3>
                       <p
-                        className="text-[13px] md:text-[14px] leading-[135%] text-[#666666]"
+                        className=" text-[18px] font-['Inter'] font-normal md:text-[18px] leading-[120%] text-[#4A5563]"
                         style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
                       >
                         {item.description}
@@ -277,14 +277,14 @@ export function PuppyFirstYearSection() {
                     {/* Dot on timeline */}
                     <div
                       ref={(el) => { dotsRef.current[index] = el; }}
-                      className="absolute top-1/2 -translate-y-1/2 right-[20px] md:right-[24px] 
+                      className="weekly-dots absolute top-1/2 -translate-y-1/2 right-[20px] md:right-[-51px] 
                                   w-[16px] h-[16px] rounded-full bg-white shadow-lg border-[3px] border-[#5F7E9D] z-10"
                     />
 
                     {/* Paw icon */}
                     <div
                       ref={(el) => { pawsRef.current[index] = el; }}
-                      className="absolute top-1/2 -translate-y-1/2 right-[-10px] md:right-[-8px]
+                      className=" weekly-hands absolute top-1/2 -translate-y-1/2 right-[-10px] md:right-[-115px]
                                w-[36px] h-[36px] md:w-[42px] md:h-[42px] z-10
                                transition-transform duration-300 hover:scale-110 hover:rotate-12"
                     >

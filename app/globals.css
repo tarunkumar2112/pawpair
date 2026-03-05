@@ -89,10 +89,13 @@
  @media only screen and (max-width: 1024px) {
 .header-row .logo img {  max-width: 180px;}
 .care-gives {  flex-direction: column-reverse;}
+.week-by-week-main .pupy-right-cols {
+    padding-right: 4rem;
+}
  }
 
  @media only screen and (max-width: 767px) {
-.home-banner {
-    height: auto !important;
-}
+.home-banner { height: auto !important;}
+.week-by-week-main .weekly-dots {  right: -49px;}
+.week-by-week-main .weekly-hands { right: -116px;}
  }
