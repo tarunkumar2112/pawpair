@@ -16,8 +16,9 @@ export default function Home() {
       <CaregiverSection />
       <TimelineSection />
       <EnergyMatchSection />
-      <PuppyFirstYearSection />
       <CaregiversSection />
+      <PuppyFirstYearSection />
+     
       <FamilyCareSection />
       <Footer />
     </main>
