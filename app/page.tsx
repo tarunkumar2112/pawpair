@@ -16,10 +16,11 @@ export default function Home() {
       <CaregiverSection />
       <TimelineSection />
       <EnergyMatchSection />
-      <CaregiversSection />
+     
       <PuppyFirstYearSection />
      
       <FamilyCareSection />
+      <CaregiversSection />
       <Footer />
     </main>
   );
