@@ -13,24 +13,25 @@ export function Header() {
   };
 
   return (
-    <header className="w-full bg-[#F6F2EA] sticky top-0 z-50">
+    <header className=" header-main py-5 px-0 w-full bg-[#F6F2EA] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <Link href="/" className="flex items-center">
+        <div className=" header-row flex items-center justify-between h-20">
+          <Link href="/" className=" logo flex items-center">
             <Image
               src="/logo.png"
               alt="PawPair Logo"
-              width={200}
-              height={50}
+              width={229}
+              max-width={229}
+              height={72}
               className="h-12 w-auto"
               priority
             />
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className=" navigation hidden md:flex items-center space-x-[49px] md:space-x-[15px] lg:space-x-[49px]">
             <Link
               href="/about"
-              className="text-[#000000] font-modern font-normal text-[18px] leading-[100%] hover:opacity-70 transition-opacity"
+              className="font-normal text-[18px] leading-[18px] text-black m-0 font-modern md:text-[14px] lg:text-[18px] hover:opacity-70 transition-opacity"
             >
               About
             </Link>
@@ -42,13 +43,13 @@ export function Header() {
             </Link>
             <Link
               href="/contact"
-              className="text-[#000000] font-modern font-normal text-[18px] leading-[100%] hover:opacity-70 transition-opacity"
+              className="font-normal text-[18px] leading-[18px] text-black m-0 font-modern md:text-[14px] lg:text-[18px] hover:opacity-70 transition-opacity"
             >
               Contact
             </Link>
             <Link
               href="/find-care"
-              className="px-6 py-3 bg-[#5F7E9D] text-white font-modern font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
+              className="px-6 py-3 bg-[#5F7E9D] text-white font-modern font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white md:text-[14px] hover:text-[#5F7E9D] m-0 hover:border-[#5F7E9D] transition-all duration-300"
             >
               Find Care That Fits
             </Link>

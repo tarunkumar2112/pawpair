@@ -93,32 +93,21 @@ export function TimelineSection() {
   return (
     <section
       ref={sectionRef}
-      className="w-full py-16 md:py-24 lg:py-32 bg-[#5F7E9D] relative overflow-hidden"
+      className="w-full py-[60px] bg-[#5F7E9D] relative overflow-hidden"
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
         <div className="text-center mb-16 md:mb-20">
           <div className="flex items-center justify-center gap-3 mb-4">
             <h2
-              className="text-white font-semibold text-[32px] sm:text-[40px] lg:text-[48px] leading-[120%] tracking-[0%]"
-              style={{
-                fontFamily:
-                  "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif",
-                fontWeight: 600,
-              }}
+              className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[40px] xl:text-[46px] leading-[120%] text-[#fff]"
+              
             >
               How PawPair Works
             </h2>
-            <div className="flex -space-x-2">
-              <div className="w-10 h-10 rounded-full bg-white/20 border-2 border-white overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-[#8B9DAF] to-[#5F7E9D]" />
-              </div>
-              <div className="w-10 h-10 rounded-full bg-white/20 border-2 border-white overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-[#E8DCC4] to-[#D4C5A9]" />
-              </div>
-            </div>
+          
           </div>
           <p
-            className="text-white text-[16px] sm:text-[18px] leading-[120%] tracking-[0%]"
+            className="text-[16px] font-sans font-normal md:text-[18px] leading-[120%] text-center text-[#fff]"
             style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
           >
             Start your dog's journey with the right match.
@@ -149,12 +138,12 @@ export function TimelineSection() {
             {timelineData.map((item, index) => (
               <div
                 key={index}
-                className={`timeline-item relative grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
+                className={`timeline-item time-line-row relative grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
                   item.position === "right" ? "lg:flex-row-reverse" : ""
                 }`}
               >
                 <div
-                  className={`${
+                  className={`time-line-left ${
                     item.position === "right"
                       ? "lg:col-start-2 lg:pl-12"
                       : "lg:pr-12"
@@ -172,19 +161,19 @@ export function TimelineSection() {
                 </div>
 
                 <div
-                  className={`relative ${
+                  className={`time-line-right relative ${
                     item.position === "right"
                       ? "lg:col-start-1 lg:row-start-1 lg:pr-12"
                       : "lg:pl-12"
                   }`}
                 >
                   <div
-                    className={`bg-[#F6F2EA] rounded-[20px] p-8 shadow-xl ${
+                    className={`bg-[#F6F2EA] rounded-[20px] p-8 shadow-xl time-line-right-inner ${
                       item.position === "right" ? "lg:ml-auto" : ""
                     } max-w-[500px]`}
                   >
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className="relative w-12 h-12 flex-shrink-0">
+                    <div className="time-line-inner-blocks flex flex-col items-start gap-4  mb-[25px]">
+                      <div className="relative w-[40px] h-[40px] md:w-[80px] md:h-[80px] flex-shrink-0">
                         <Image
                           src={item.icon}
                           alt=""
@@ -193,18 +182,14 @@ export function TimelineSection() {
                         />
                       </div>
                       <h3
-                        className="text-[#2F3E4E] font-semibold text-[24px] sm:text-[28px] leading-[120%] tracking-[0%] flex-1"
-                        style={{
-                          fontFamily:
-                            "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif",
-                          fontWeight: 600,
-                        }}
+                        className=" text-[18px] !text-[#2F3E4E]  font-modern font-normal leading-[120%]  md:text-[20px] xl:text-[24px]"
+                        
                       >
                         {item.title}
                       </h3>
                     </div>
                     <p
-                      className="text-[#2F3E4E] font-normal text-[16px] sm:text-[18px] leading-[120%] tracking-[0%]"
+                      className="text-[16px] font-sans font-normal md:text-[18px] leading-[120%] text-[#4A5563]"
                       style={{
                         fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
                       }}
