@@ -222,7 +222,7 @@ export function PuppyFirstYearSection() {
           {/* ══════════ RIGHT 30% — Bone + Cards + Timeline ══════════ */}
           <div className="pupy-right-cols relative w-full lg:w-[30%] flex flex-col">
             {/* Bone icon — absolute top-right */}
-            <div className="bone-icon absolute -top-2 right-2 w-[50px] h-[50px] md:w-[58px] md:h-[58px] lg:w-[64px] lg:h-[64px] z-20">
+            <div className=" bone-icon-top bone-icon absolute -top-2 right-2 w-[50px] h-[50px] md:w-[58px] md:h-[58px] lg:w-[64px] lg:h-[64px] z-20">
               <Image
                 src="/bone.png"
                 alt="Bone icon"
