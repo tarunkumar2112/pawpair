@@ -92,6 +92,10 @@
 .week-by-week-main .pupy-right-cols {
     padding-right: 4rem;
 }
+.bone-icon-top {
+    right: 4.1rem;
+    top: 0;
+}
  }
 
  @media only screen and (max-width: 767px) {
