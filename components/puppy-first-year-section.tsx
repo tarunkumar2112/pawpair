@@ -218,13 +218,12 @@ export function PuppyFirstYearSection() {
               />
               <div
                 ref={lineRef}
-                className="absolute left-[11px] top-[14px] bottom-[14px] w-[2px] hidden sm:block origin-top"
+                className="absolute left-[11px] top-[14px] bottom-[14px] w-[2px] hidden sm:block origin-top scale-y-0"
                 style={{
                   backgroundImage:
                     "linear-gradient(to bottom, white 50%, transparent 50%)",
                   backgroundSize: "2px 14px",
                   backgroundRepeat: "repeat-y",
-                  scaleY: 0,
                 }}
               />
 
