@@ -104,7 +104,7 @@ export function PuppyFirstYearSection() {
           );
         });
 
-        // Left column fades in from left
+        // Left column fades in
         const leftCol = sectionRef.current?.querySelector(".puppy-left-col");
         if (leftCol) {
           gsap.fromTo(
@@ -137,61 +137,47 @@ export function PuppyFirstYearSection() {
       className="w-full py-[60px] md:py-[70px] lg:py-[80px] bg-[#5F7E9D] relative overflow-hidden"
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
 
-          {/* ── LEFT COLUMN ── Heading + text + image */}
-          <div className="puppy-left-col flex flex-col gap-6">
-            {/* Heading with small avatar */}
-            <div className="flex items-start gap-3">
-              <h2 className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[38px] xl:text-[42px] leading-[120%] text-white">
-                Your Puppy&apos;s First Year —{" "}
-                Guided Week by Week
-              </h2>
-              {/* Small circular icon beside heading */}
-              <div className="flex-shrink-0 w-[40px] h-[40px] mt-1 rounded-full overflow-hidden border-2 border-white/40 bg-white/20 flex items-center justify-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5 text-white"
-                  fill="currentColor"
-                >
-                  <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-                </svg>
-              </div>
-            </div>
+          {/* ══════════ LEFT 60% — Heading + Text + Image ══════════ */}
+          <div className="puppy-left-col w-full lg:w-[60%] flex flex-col">
+            {/* Heading */}
+            <h2 className="font-['Modern_Sans'] font-normal text-[32px] md:text-[40px] lg:text-[44px] xl:text-[48px] leading-[120%] text-white mb-5">
+              Your Puppy&apos;s First Year —{" "}
+              <span className="inline">Guided Week by Week</span>
+            </h2>
 
-            {/* Sub-text */}
-            <div className="space-y-3">
-              <p
-                className="text-[14px] md:text-[15px] leading-[140%] text-white/80"
-                style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
-              >
-                The first year of a dog&apos;s life is full of important milestones.
-              </p>
-              <p
-                className="text-[14px] md:text-[15px] leading-[140%] text-white/80"
-                style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
-              >
-                PawPair guides new dog parents through every stage with weekly insights,
-                reminders, and tips tailored to your puppy&apos;s development.
-              </p>
-            </div>
+            {/* Description paragraphs */}
+            <p
+              className="text-[15px] md:text-[16px] leading-[145%] text-white/85 mb-3"
+              style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
+            >
+              The first year of a dog&apos;s life is full of important milestones.
+            </p>
+            <p
+              className="text-[15px] md:text-[16px] leading-[145%] text-white/85 mb-8"
+              style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
+            >
+              PawPair guides new dog parents through every stage with weekly insights,
+              reminders, and tips tailored to your puppy&apos;s development.
+            </p>
 
             {/* kidcare.png image */}
-            <div className="relative w-full mt-2">
+            <div className="relative w-full">
               <Image
                 src="/kidcare.png"
                 alt="Girl bonding with puppy on sofa"
-                width={560}
-                height={380}
-                className="w-full h-auto rounded-[16px] shadow-xl object-cover"
+                width={650}
+                height={450}
+                className="w-full h-auto rounded-[18px] shadow-2xl object-cover"
               />
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN ── Bone + cards with right-side timeline */}
-          <div className="relative w-full">
+          {/* ══════════ RIGHT 40% — Bone + Cards + Timeline ══════════ */}
+          <div className="relative w-full lg:w-[40%] lg:pt-1">
             {/* Bone icon — absolute top-right */}
-            <div className="absolute -top-4 right-0 w-[48px] h-[48px] md:w-[58px] md:h-[58px] select-none pointer-events-none z-10">
+            <div className="absolute -top-3 right-0 w-[50px] h-[50px] md:w-[60px] md:h-[60px] select-none pointer-events-none z-10">
               <Image
                 src="/bone.png"
                 alt="Bone icon"
@@ -200,69 +186,79 @@ export function PuppyFirstYearSection() {
               />
             </div>
 
-            {/* Cards + right-side vertical timeline */}
-            <div className="relative pt-2">
-              {/* Ghost line (faded track) */}
+            {/* Timeline container */}
+            <div className="relative pt-3 pr-[60px] md:pr-[70px]">
+              {/* Ghost dashed line (background track) */}
               <div
-                className="absolute right-[22px] top-[14px] bottom-[14px] w-[2px] hidden md:block"
+                className="absolute right-[24px] md:right-[28px] top-[20px] bottom-[20px] w-[3px]"
                 style={{
                   backgroundImage:
-                    "linear-gradient(to bottom, rgba(255,255,255,0.25) 55%, transparent 55%)",
-                  backgroundSize: "2px 12px",
+                    "linear-gradient(to bottom, rgba(255,255,255,0.25) 50%, transparent 50%)",
+                  backgroundSize: "3px 14px",
                   backgroundRepeat: "repeat-y",
                 }}
               />
-              {/* Animated line (fills on scroll) */}
+              
+              {/* Animated dashed line (fills on scroll) */}
               <div
                 ref={lineRef}
-                className="absolute right-[22px] top-[14px] bottom-[14px] w-[2px] hidden md:block origin-top"
+                className="absolute right-[24px] md:right-[28px] top-[20px] bottom-[20px] w-[3px] origin-top"
                 style={{
                   backgroundImage:
-                    "linear-gradient(to bottom, rgba(255,255,255,0.7) 55%, transparent 55%)",
-                  backgroundSize: "2px 12px",
+                    "linear-gradient(to bottom, rgba(255,255,255,0.8) 50%, transparent 50%)",
+                  backgroundSize: "3px 14px",
                   backgroundRepeat: "repeat-y",
                 }}
               />
 
-              {/* Milestone rows */}
-              <div className="space-y-4 pr-[54px]">
+              {/* Milestone cards */}
+              <div className="space-y-4 md:space-y-5">
                 {milestones.map((item, index) => (
-                  <div key={index} className="relative flex items-center gap-0">
-                    {/* White card */}
+                  <div key={index} className="relative">
+                    {/* White rounded card */}
                     <div
                       ref={(el) => { cardsRef.current[index] = el; }}
-                      className="flex-1 group bg-white rounded-[14px] px-5 py-4 shadow-md
-                                 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 cursor-default"
+                      className="bg-white rounded-[16px] px-5 py-4 shadow-lg
+                                 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 
+                                 cursor-default relative group"
                     >
-                      <h3
-                        className="font-['Modern_Sans'] font-semibold text-[17px] md:text-[19px] leading-[120%] text-[#2F3E4E]"
-                      >
+                      <h3 className="font-['Modern_Sans'] font-semibold text-[18px] md:text-[20px] leading-[120%] text-[#1a1a1a] mb-1">
                         {item.label}
                       </h3>
                       <p
-                        className="text-[13px] md:text-[14px] leading-[130%] text-[#4A5563] mt-1"
+                        className="text-[14px] md:text-[15px] leading-[135%] text-[#555555]"
                         style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
                       >
                         {item.description}
                       </p>
+
+                      {/* Right arrow pointer (speech bubble style) */}
+                      <div className="absolute top-1/2 -translate-y-1/2 -right-[10px] w-0 h-0 
+                                    border-t-[10px] border-t-transparent 
+                                    border-b-[10px] border-b-transparent 
+                                    border-l-[10px] border-l-white
+                                    drop-shadow-sm">
+                      </div>
                     </div>
 
-                    {/* Dot connector + paw icon — absolutely positioned to the right */}
-                    <div className="hidden md:flex items-center absolute right-0 translate-x-0 gap-1">
-                      {/* Connector dot */}
-                      <div className="w-[10px] h-[10px] rounded-full bg-white shadow flex-shrink-0" />
-                      {/* Paw icon */}
-                      <div
-                        ref={(el) => { pawsRef.current[index] = el; }}
-                        className="w-[28px] h-[28px] relative ml-1 transition-transform duration-300 hover:scale-110 hover:rotate-6"
-                      >
-                        <Image
-                          src="/footstep.png"
-                          alt="Paw print"
-                          fill
-                          className="object-contain opacity-70"
-                        />
-                      </div>
+                    {/* Dot on timeline */}
+                    <div className="absolute top-1/2 -translate-y-1/2 right-[16px] md:right-[20px] 
+                                  w-[14px] h-[14px] rounded-full bg-white shadow-md border-2 border-[#5F7E9D] z-10">
+                    </div>
+
+                    {/* Paw icon */}
+                    <div
+                      ref={(el) => { pawsRef.current[index] = el; }}
+                      className="absolute top-1/2 -translate-y-1/2 right-[-8px] md:right-[-6px]
+                               w-[32px] h-[32px] md:w-[38px] md:h-[38px] 
+                               transition-transform duration-300 hover:scale-110 hover:rotate-12"
+                    >
+                      <Image
+                        src="/footstep.png"
+                        alt="Paw print"
+                        fill
+                        className="object-contain opacity-80"
+                      />
                     </div>
                   </div>
                 ))}
