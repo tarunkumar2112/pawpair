@@ -36,8 +36,8 @@ export function Header() {
               About
             </Link>
             <Link
-              href="/become-caregiver"
-              className="font-normal text-[18px] leading-[18px] text-black m-0 font-modern md:text-[14px] lg:text-[18px] hover:opacity-70 transition-opacity"
+              href="/auth/caregiver-signup"
+              className="text-[#000000] font-modern font-normal text-[18px] leading-[100%] hover:opacity-70 transition-opacity"
             >
               Become A Caregiver
             </Link>
@@ -78,7 +78,7 @@ export function Header() {
               About
             </Link>
             <Link
-              href="/become-caregiver"
+              href="/auth/caregiver-signup"
               className="block text-[#000000] font-modern font-normal text-[18px] leading-[100%] py-2 hover:opacity-70 transition-opacity"
               onClick={() => setIsMenuOpen(false)}
             >

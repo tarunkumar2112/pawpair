@@ -3,7 +3,11 @@ import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage() {
+export default async function OwnerLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
 
@@ -22,5 +26,5 @@ export default async function DashboardPage() {
     redirect("/dashboard/caregiver");
   }
 
-  redirect("/dashboard/owner");
+  return <>{children}</>;
 }

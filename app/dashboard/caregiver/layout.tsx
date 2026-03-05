@@ -3,7 +3,11 @@ import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage() {
+export default async function CaregiverLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
 
@@ -18,9 +22,9 @@ export default async function DashboardPage() {
     .eq("id", userId)
     .single();
 
-  if (profile?.role === "caregiver") {
-    redirect("/dashboard/caregiver");
+  if (profile?.role === "owner") {
+    redirect("/dashboard/owner");
   }
 
-  redirect("/dashboard/owner");
+  return <>{children}</>;
 }
