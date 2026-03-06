@@ -34,15 +34,35 @@ export function SignUpForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: { full_name: fullName, role: "owner" },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin}/auth/callback?next=/dashboard`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin}/auth/confirm`,
         },
       });
       if (error) throw error;
+
+      if (data.user) {
+        const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin}/auth/confirm?token_hash=${data.user.id}&type=signup`;
+        
+        try {
+          await fetch('/api/send-confirmation-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email,
+              role: 'owner',
+              name: fullName,
+              confirmationUrl,
+            }),
+          });
+        } catch (emailError) {
+          console.error('Failed to send confirmation email:', emailError);
+        }
+      }
+
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");

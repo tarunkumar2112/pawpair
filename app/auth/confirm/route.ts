@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { type NextRequest } from "next/server";
+import { sendWelcomeEmail } from "@/lib/email";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -12,19 +13,35 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const supabase = await createClient();
 
-    const { error } = await supabase.auth.verifyOtp({
+    const { error, data } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     });
     if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next);
+      const user = data?.user;
+      const role = user?.user_metadata?.role;
+      const email = user?.email;
+      const name = user?.user_metadata?.full_name || "User";
+
+      if (email && (role === "owner" || role === "caregiver")) {
+        try {
+          await sendWelcomeEmail(email, role, name);
+        } catch (emailError) {
+          console.error("Failed to send welcome email:", emailError);
+        }
+      }
+
+      if (role === "owner") {
+        redirect("/auth/email-verified-success?role=owner");
+      } else if (role === "caregiver") {
+        redirect("/auth/email-verified-success?role=caregiver");
+      } else {
+        redirect(next);
+      }
     } else {
-      // redirect the user to an error page with some instructions
       redirect(`/auth/error?error=${error?.message}`);
     }
   }
 
-  // redirect the user to an error page with some instructions
   redirect(`/auth/error?error=No token hash or type`);
 }
