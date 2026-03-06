@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { type NextRequest } from "next/server";
-import { sendWelcomeEmail } from "@/lib/email";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -20,16 +19,6 @@ export async function GET(request: NextRequest) {
     if (!error) {
       const user = data?.user;
       const role = user?.user_metadata?.role;
-      const email = user?.email;
-      const name = user?.user_metadata?.full_name || "User";
-
-      if (email && (role === "owner" || role === "caregiver")) {
-        try {
-          await sendWelcomeEmail(email, role, name);
-        } catch (emailError) {
-          console.error("Failed to send welcome email:", emailError);
-        }
-      }
 
       if (role === "owner") {
         redirect("/auth/email-verified-success?role=owner");
