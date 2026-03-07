@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="w-full relative overflow-hidden">
+    <footer id="contact" className="w-full relative overflow-hidden">
       <div
         className="footer-bg absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{

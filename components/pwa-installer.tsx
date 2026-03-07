@@ -1,16 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 
 export function PWAInstaller() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showAndroidPrompt, setShowAndroidPrompt] = useState(false);
   const [showIOSPrompt, setShowIOSPrompt] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Don't show if already dismissed this session
-    if (sessionStorage.getItem("pwa-dismissed")) return;
+    // Check if device is mobile
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      setIsMobile(mobile);
+      return mobile;
+    };
+
+    if (!checkMobile()) return;
 
     const isIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
@@ -23,7 +33,7 @@ export function PWAInstaller() {
 
     // iOS: show manual instructions
     if (isIOS) {
-      setTimeout(() => setShowIOSPrompt(true), 3000);
+      setTimeout(() => setShowIOSPrompt(true), 2000);
       return;
     }
 
@@ -31,7 +41,7 @@ export function PWAInstaller() {
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setTimeout(() => setShowAndroidPrompt(true), 3000);
+      setTimeout(() => setShowAndroidPrompt(true), 2000);
     };
 
     window.addEventListener("beforeinstallprompt", handler);
@@ -48,103 +58,134 @@ export function PWAInstaller() {
     }
   };
 
-  const handleDismiss = () => {
-    setShowAndroidPrompt(false);
-    setShowIOSPrompt(false);
-    setDismissed(true);
-    sessionStorage.setItem("pwa-dismissed", "true");
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
   };
 
-  if (dismissed || (!showAndroidPrompt && !showIOSPrompt)) return null;
+  if (!isMobile || (!showAndroidPrompt && !showIOSPrompt)) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-sm">
-      <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
-        <div className="bg-[#5F7E9D] px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+    <div className="fixed bottom-0 left-0 right-0 z-50 transition-all duration-300">
+      <div className="bg-white shadow-2xl border-t-2 border-[#5F7E9D]">
+        {/* Header - Always visible */}
+        <div 
+          className="bg-[#5F7E9D] px-4 py-3 flex items-center justify-between cursor-pointer"
+          onClick={toggleCollapse}
+        >
+          <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/android-chrome-192x192.png"
               alt="PawPair"
-              className="w-8 h-8 rounded-lg"
+              className="w-10 h-10 rounded-lg"
             />
-            <span className="text-white font-semibold text-sm">PawPair</span>
+            <div>
+              <span className="text-white font-semibold text-base block">
+                Install PawPair
+              </span>
+              <span className="text-white/80 text-xs">
+                {showAndroidPrompt ? "Tap to install" : "Add to home screen"}
+              </span>
+            </div>
           </div>
           <button
-            onClick={handleDismiss}
-            className="text-white/80 hover:text-white text-lg leading-none"
-            aria-label="Close"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleCollapse();
+            }}
+            className="text-white/90 hover:text-white p-1"
+            aria-label={isCollapsed ? "Expand" : "Collapse"}
           >
-            ✕
+            {isCollapsed ? (
+              <ChevronUp className="w-6 h-6" />
+            ) : (
+              <ChevronDown className="w-6 h-6" />
+            )}
           </button>
         </div>
 
-        <div className="px-4 py-4">
-          {showAndroidPrompt && (
-            <>
-              <p className="text-[#2F3E4E] font-semibold text-sm mb-1">
-                Install PawPair App
-              </p>
-              <p className="text-gray-500 text-xs mb-4">
-                Install our app for a faster, better experience — works offline
-                too!
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={handleInstall}
-                  className="flex-1 py-2.5 bg-[#5F7E9D] text-white rounded-xl text-sm font-medium hover:bg-[#4e6b87] transition"
-                >
-                  Install App
-                </button>
-                <button
-                  onClick={handleDismiss}
-                  className="flex-1 py-2.5 border border-gray-200 text-gray-500 rounded-xl text-sm font-medium hover:bg-gray-50 transition"
-                >
-                  Not Now
-                </button>
-              </div>
-            </>
-          )}
+        {/* Content - Collapsible */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ${
+            isCollapsed ? "max-h-0" : "max-h-[500px]"
+          }`}
+        >
+          <div className="px-4 py-4 bg-white">
+            {showAndroidPrompt && (
+              <>
+                <p className="text-[#2F3E4E] font-semibold text-base mb-2">
+                  Get the Best Experience
+                </p>
+                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  Install our app for faster access, offline support, and a seamless experience tailored to your dog's needs.
+                </p>
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={handleInstall}
+                    className="w-full py-3.5 bg-[#5F7E9D] text-white rounded-xl text-base font-semibold hover:bg-[#4e6b87] transition-all shadow-md active:scale-95"
+                  >
+                    🐾 Install PawPair App
+                  </button>
+                  <button
+                    onClick={toggleCollapse}
+                    className="w-full py-2.5 text-gray-500 text-sm font-medium hover:text-gray-700 transition"
+                  >
+                    Maybe Later
+                  </button>
+                </div>
+              </>
+            )}
 
-          {showIOSPrompt && (
-            <>
-              <p className="text-[#2F3E4E] font-semibold text-sm mb-1">
-                Add PawPair to Home Screen
-              </p>
-              <p className="text-gray-500 text-xs mb-3">
-                Install this app on your iPhone for quick access:
-              </p>
-              <ol className="text-xs text-gray-600 space-y-1.5 mb-4">
-                <li className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#5F7E9D] text-white flex items-center justify-center text-[10px] flex-shrink-0">
-                    1
-                  </span>
-                  Tap the{" "}
-                  <strong>Share</strong> button{" "}
-                  <span className="text-base">⎋</span> in Safari
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#5F7E9D] text-white flex items-center justify-center text-[10px] flex-shrink-0">
-                    2
-                  </span>
-                  Scroll down and tap{" "}
-                  <strong>"Add to Home Screen"</strong>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#5F7E9D] text-white flex items-center justify-center text-[10px] flex-shrink-0">
-                    3
-                  </span>
-                  Tap <strong>"Add"</strong> to confirm
-                </li>
-              </ol>
-              <button
-                onClick={handleDismiss}
-                className="w-full py-2.5 border border-gray-200 text-gray-500 rounded-xl text-sm font-medium hover:bg-gray-50 transition"
-              >
-                Got it
-              </button>
-            </>
-          )}
+            {showIOSPrompt && (
+              <>
+                <p className="text-[#2F3E4E] font-semibold text-base mb-2">
+                  Add to Home Screen
+                </p>
+                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  Install PawPair on your iPhone for quick access and a native app experience.
+                </p>
+                <ol className="text-sm text-gray-700 space-y-3 mb-5 bg-gray-50 rounded-xl p-4">
+                  <li className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-[#5F7E9D] text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                      1
+                    </span>
+                    <div>
+                      Tap the <strong>Share button</strong>{" "}
+                      <span className="inline-block text-blue-600 text-xl align-middle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="inline">
+                          <path d="M16 5l-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4zm4 5v11c0 1.1-.9 2-2 2H6c-1.11 0-2-.9-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3c1.1 0 2 .89 2 2z"/>
+                        </svg>
+                      </span>{" "}
+                      at the bottom of Safari
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-[#5F7E9D] text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                      2
+                    </span>
+                    <div>
+                      Scroll down and select{" "}
+                      <strong>"Add to Home Screen"</strong>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-[#5F7E9D] text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                      3
+                    </span>
+                    <div>
+                      Tap <strong>"Add"</strong> in the top right to confirm
+                    </div>
+                  </li>
+                </ol>
+                <button
+                  onClick={toggleCollapse}
+                  className="w-full py-3 border-2 border-gray-200 text-gray-600 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all active:scale-95"
+                >
+                  Got it, thanks!
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

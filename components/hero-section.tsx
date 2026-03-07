@@ -72,20 +72,22 @@ export function HeroSection() {
                 AI-powered care that understands your dog, not just your zip code.
               </p>
 
-              <Link
-                href="/find-care"
-                className="mt-8 inline-block px-8 py-3.5 bg-[#5F7E9D] text-white font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
-                style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
-              >
-                Create Your Dog’s Profile
-              </Link>
-    <Link
-  href="/find-care"
-  className="mt-8 inline-block px-8 py-3.5 text-[#5F7E9D] font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-[#5F7E9D] hover:bg-[#5F7E9D] hover:text-white transition-all duration-300"
-  style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
->
-  Ask PawPair AI
-</Link>
+              <div className="flex gap-[5px] mt-8">
+                <Link
+                  href="/find-care"
+                  className="inline-block px-8 py-3.5 bg-[#5F7E9D] text-white font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
+                  style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
+                >
+                  Create Your Dog's Profile
+                </Link>
+                <button
+                  onClick={scrollToBottom}
+                  className="inline-block px-8 py-3.5 text-[#5F7E9D] font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-[#5F7E9D] hover:bg-[#5F7E9D] hover:text-white transition-all duration-300"
+                  style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
+                >
+                  Ask PawPair AI
+                </button>
+              </div>
             </div>
           </div>
         </div>

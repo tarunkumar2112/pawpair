@@ -50,6 +50,7 @@ export function CaregiverSection() {
 
   return (
     <section
+      id="about"
       ref={sectionRef}
       className="w-full py-[60px] md:py-[80px] bg-white"
     >
