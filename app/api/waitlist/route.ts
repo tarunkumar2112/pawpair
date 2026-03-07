@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -13,6 +13,8 @@ export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
 
+    console.log("Waitlist API called with email:", email);
+
     // Validate email
     if (!email || !email.includes("@")) {
       return NextResponse.json(
@@ -22,7 +24,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Supabase client
-    const supabase = createClient();
+    const supabase = await createClient();
+    console.log("Supabase client created");
 
     // Check if email already exists
     const { data: existingEmail, error: checkError } = await supabase
@@ -31,12 +34,23 @@ export async function POST(request: NextRequest) {
       .eq("email", email.toLowerCase())
       .single();
 
+    if (checkError && checkError.code !== 'PGRST116') {
+      // PGRST116 means no rows returned, which is fine
+      console.error("Supabase check error:", checkError);
+      return NextResponse.json(
+        { error: "Database error occurred" },
+        { status: 500 }
+      );
+    }
+
     if (existingEmail) {
       return NextResponse.json(
         { error: "This email is already on the waitlist" },
         { status: 400 }
       );
     }
+
+    console.log("Inserting email into database...");
 
     // Insert into waitlist table
     const { data, error } = await supabase
@@ -51,17 +65,19 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error("Supabase error:", error);
+      console.error("Supabase insert error:", error);
       return NextResponse.json(
         { error: "Failed to add to waitlist" },
         { status: 500 }
       );
     }
 
+    console.log("Email inserted successfully:", data);
+
     // Send email to user
     try {
       await resend.emails.send({
-        from: "PawPair <noreply@pawpair.com>",
+        from: "PawPair <noreply@contact.mypawpair.com>",
         to: [email],
         subject: "Welcome to PawPair Waitlist! 🐾",
         html: `
@@ -137,6 +153,7 @@ export async function POST(request: NextRequest) {
           </html>
         `,
       });
+      console.log("User confirmation email sent successfully");
     } catch (emailError) {
       console.error("Failed to send user email:", emailError);
       // Don't fail the request if email fails
@@ -144,8 +161,9 @@ export async function POST(request: NextRequest) {
 
     // Send notification emails to admins
     try {
-      await resend.emails.send({
-        from: "PawPair Waitlist <noreply@pawpair.com>",
+      console.log("Sending notification to admins:", ADMIN_EMAILS);
+      const adminEmailResult = await resend.emails.send({
+        from: "PawPair Waitlist <noreply@contact.mypawpair.com>",
         to: ADMIN_EMAILS,
         subject: "🎉 New Waitlist Signup - PawPair",
         html: `
@@ -217,10 +235,13 @@ export async function POST(request: NextRequest) {
           </html>
         `,
       });
+      console.log("Admin notification emails sent successfully");
     } catch (adminEmailError) {
       console.error("Failed to send admin email:", adminEmailError);
       // Don't fail the request if email fails
     }
+
+    console.log("Waitlist signup completed successfully for:", email);
 
     return NextResponse.json(
       { 
