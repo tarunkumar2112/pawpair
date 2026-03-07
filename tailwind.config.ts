@@ -9,6 +9,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      sm: "640px",
+      md: "768px",
+      nav: "999px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       fontFamily: {
         modern: ['"Modern Sans"', 'sans-serif'],
