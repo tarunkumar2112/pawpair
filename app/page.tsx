@@ -7,6 +7,7 @@ import { EnergyMatchSection } from "@/components/energy-match-section";
 import { PuppyFirstYearSection } from "@/components/puppy-first-year-section";
 import { CaregiversSection } from "@/components/caregivers-section";
 import { FamilyCareSection } from "@/components/family-care-section";
+import { FAQSection } from "@/components/faq-section";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
      
       <FamilyCareSection />
       <CaregiversSection />
+      <FAQSection />
       <Footer />
     </main>
   );
