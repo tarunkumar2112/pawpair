@@ -15,17 +15,16 @@ CREATE INDEX IF NOT EXISTS idx_waitlist_created_at ON public.waitlist(created_at
 -- Enable Row Level Security (RLS)
 ALTER TABLE public.waitlist ENABLE ROW LEVEL SECURITY;
 
--- Create policy to allow inserts from anyone
-CREATE POLICY "Allow public inserts" ON public.waitlist
+-- Allow anyone (anon + authenticated) to insert
+CREATE POLICY "Allow anon inserts" ON public.waitlist
     FOR INSERT
-    TO public
+    TO anon, authenticated
     WITH CHECK (true);
 
--- Create policy to allow admins to read all records
--- You'll need to create an admin role or adjust this based on your auth setup
-CREATE POLICY "Allow authenticated users to read" ON public.waitlist
+-- Allow anyone to select (for duplicate check)
+CREATE POLICY "Allow anon select" ON public.waitlist
     FOR SELECT
-    TO authenticated
+    TO anon, authenticated
     USING (true);
 
 -- Create trigger to update updated_at timestamp
