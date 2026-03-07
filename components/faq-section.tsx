@@ -83,7 +83,7 @@ export function FAQSection() {
             </h2>
             <p
               className="font-inter font-normal text-[18px] leading-[120%] text-[#4A5563] mt-[20px]"
-              style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
+             
             >
               PawPair AI is your personal dog care assistant, ready to help
               anytime. Ask questions about your dog's health, behavior,
