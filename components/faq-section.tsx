@@ -114,10 +114,12 @@ export function FAQSection() {
                   onClick={() => toggleFAQ(index)}
                   className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors duration-200"
                 >
-                  <span className="font-inter font-normal text-[16px] md:text-[18px] leading-[120%] text-[#2F3E4E] pr-4">
+                  <span className="font-inter font-mediuml text-[18px] md:text-[20px] leading-[120%] tracking-[-0.5px] text-[#4A5563] pr-4">
                     {faq.question}
                   </span>
-                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-[#5F7E9D]">
+
+         
+                  <div className=" accordion-btn flex-shrink-0 w-6 h-6 flex items-center justify-center text-[#5F7E9D]">
                     {openIndex === index ? (
                       <Minus className="w-5 h-5" />
                     ) : (

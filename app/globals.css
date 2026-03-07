@@ -91,6 +91,13 @@
 .time-line-row .time-line-right .time-line-right-inner { max-width: 100%;}
 .time-line-row .timeline-item { margin-top: 40px !important;}
 .footer-bg {  background-position: top center;}
+.accordion-btn { width: 32px; height: 32px;  background: #fff; border-radius: 50px; border: 1px solid #dfe5eb;}
+.accordion-btn svg paTH {
+    fill: #182430;
+    stroke: #182430;
+}
+
+
  @media only screen and (max-width: 1024px) {
 .header-row .logo img {  max-width: 180px;}
 .care-gives {  flex-direction: column-reverse;}
@@ -107,4 +114,7 @@
 .home-banner { height: auto !important;}
 .week-by-week-main .weekly-dots {  right: -49px;}
 .week-by-week-main .weekly-hands { right: -116px;}
+ }
+ @media only screen and (max-width: 639px) {
+.footer-inputs-btn {  margin-left: 0px !important;}
  }

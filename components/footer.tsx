@@ -65,12 +65,12 @@ export function Footer() {
       </div>
       
       <div className="relative z-10 max-w-[1400px] mx-auto px-8 sm:px-12 lg:px-16 py-24 md:py-32 pb-32 md:pb-40">
-        <div className="flex flex-col items-center text-center space-y-4">
+        <div className="flex flex-col items-center text-center md:max-w-[756px] md:mx-auto space-y-4">
           <h2 className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[40px] xl:text-[46px] leading-[120%] text-[#fff]">
             Get Early Access to PawPair
           </h2>
 
-          <p className="text-[16px] !mt-5 font-sans font-normal md:text-[18px] leading-[120%] text-[#fff]">
+          <p className="text-[16px] !mt-5 font-inter font-normal md:text-[18px] leading-[120%] text-[#fff]">
             Be among the first dog owners to experience PawPair — the AI assistant designed to understand your dog. Join the waitlist to get early access, updates, and exclusive features before the public launch.
           </p>
 
@@ -83,13 +83,13 @@ export function Footer() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 disabled={loading}
-                className="flex-1 px-5 py-3 bg-[#D9D9D9] border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-[#5F7E9D] text-gray-900 placeholder-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="font-inter flex-1 px-5 py-3 bg-[#D9D9D9] border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-[#5F7E9D] text-gray-900 placeholder-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 required
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 py-3 bg-[#5F7E9D] text-white font-semibold rounded-lg sm:rounded-l-none sm:rounded-r-lg hover:bg-[#4b657d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-w-[180px] sm:min-w-[160px]"
+                className="footer-inputs-btn font-modern font-normal px-8 py-3 bg-[#5F7E9D] text-[16px] rounded-[10px] -ml-[20px] md:text-[18px] lg:text-[20px] text-white font-regular rounded-lg sm:rounded-l-none sm:rounded-r-lg hover:bg-[#4b657d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-w-[180px] sm:min-w-[160px]"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -135,13 +135,13 @@ export function Footer() {
             </Link>
 
             <div className="max-w-2xl">
-              <p className=" text-[16px] text-[#4A5563] font-['Inter'] md:text-[18px] font-normal leading-[120%] tracking-[0%]">
+              <p className=" font-inter text-[16px] text-[#4A5563] font-['Inter'] md:text-[18px] font-normal leading-[120%] tracking-[0%]">
                 Compatibility-based dog care, starting local and built thoughtfully.
               </p>
             </div>
 
             <div className="pt-6 w-full border-t border-[#000000]/10">
-              <p className="text-[16px] text-[#000000] font-['Inter'] md:text-[18px] font-normal leading-[120%] tracking-[0%] opacity-80">
+              <p className=" font-inter text-[16px] text-[#000000] font-['Inter'] md:text-[18px] font-normal leading-[120%] tracking-[0%] opacity-80">
                 © 2026 PawPair. All rights reserved.
               </p>
             </div>
