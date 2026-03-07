@@ -65,27 +65,27 @@ export function TimelineSection() {
 
   const timelineData = [
     {
-      icon: "/ticon1.png",
+      icon: "/ticons1.png",
       image: "/timeline1.png",
-      title: "Tell us about your dog",
+      title: "Create your dog's profile",
       description:
-        "Share your dog's energy, temperament, routine, and care needs through a short compatibility quiz.",
+        "Tell PawPair about your dog’s breed, age, health, and personality.",
       position: "left",
     },
     {
-      icon: "/ticon2.png",
+      icon: "/ticons2.png",
       image: "/timeline2.png",
-      title: "We review thoughtfully",
+      title: "Ask the AI anything",
       description:
-        "We score compatibility based on key traits — not just proximity.",
+        "Get instant guidance about training, nutrition, behavior, and care.",
       position: "right",
     },
     {
-      icon: "/ticon3.png",
+      icon: "/ticons3.png",
       image: "/timeline3.png",
-      title: "Get introduced",
+      title: "Find trusted local providers",
       description:
-        "If it's a strong match, we connect you directly with a caregiver who fits.",
+        "When you need help, PawPair connects you with verified trainers, groomers, walkers, and vets.",
       position: "left",
     },
   ];

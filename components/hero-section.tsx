@@ -62,14 +62,14 @@ export function HeroSection() {
               <h1 
                 className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[45px] xl:text-[60px] leading-[120%] text-[#2F3E4E]"
               >
-                Pet care, perfectly matched.
+                Meet the AI that knows your dog.
               </h1>
 
               <p 
                 className="font-inter font-normal text-[18px] leading-[120%] text-[#4A5563]"
                 
               >
-                The trusted starting place for new dog parents.
+                AI-powered care that understands your dog, not just your zip code.
               </p>
 
               <Link
@@ -77,8 +77,15 @@ export function HeroSection() {
                 className="mt-8 inline-block px-8 py-3.5 bg-[#5F7E9D] text-white font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
                 style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
               >
-                Find Care That Fits
+                Create Your Dog’s Profile
               </Link>
+    <Link
+  href="/find-care"
+  className="mt-8 inline-block px-8 py-3.5 text-[#5F7E9D] font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-[#5F7E9D] hover:bg-[#5F7E9D] hover:text-white transition-all duration-300"
+  style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
+>
+  Ask PawPair AI
+</Link>
             </div>
           </div>
         </div>

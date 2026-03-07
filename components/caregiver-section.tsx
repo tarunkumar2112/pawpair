@@ -32,19 +32,19 @@ export function CaregiverSection() {
 
   const features = [
     {
-      icon: "/one1.png",
-      title: "Availability isn't compatibility",
-      description: "Just because someone is free doesn't mean they're the right fit.",
+      icon: "/one.png",
+      title: "Knows your dog",
+      description: "PawPair remembers your dog’s breed, age, health conditions, and habits.",
     },
     {
-      icon: "/two2.png",
-      title: "Every dog has a personality",
-      description: "Energy levels, sensitivities, quirks — they all matter.",
+      icon: "/two.png",
+      title: "24/7 answers",
+      description: "Ask questions anytime — from nutrition to behavior.",
     },
     {
-      icon: "/three3.png",
-      title: "Trust takes intention",
-      description: "The best matches are built thoughtfully, not instantly.",
+      icon: "/three.png",
+      title: "Guidance that grows",
+      description: "The more you use PawPair, the smarter your dog’s profile becomes.",
     },
   ];
 
@@ -83,15 +83,14 @@ export function CaregiverSection() {
             <h2
               className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[40px] xl:text-[46px] leading-[120%] text-[#2F3E4E]"
         >
-              Finding the right caregiver shouldn't feel like a gamble.
+              Your Dog Has an AI Companion
             </h2>
 
             <p
               className="font-inter font-normal text-[18px] leading-[120%] text-[#4A5563] mt-[20px] "
               style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
             >
-              Most platforms match based on location and availability. But every
-              dog is different.
+           Ask PawPair anything and get instant answers tailored to your dog.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-[40px]">

@@ -39,7 +39,7 @@ export function Header() {
               href="/auth/caregiver-signup"
               className="text-[#000000] font-modern font-normal text-[18px] leading-[100%] hover:opacity-70 transition-opacity"
             >
-              Become A Caregiver
+              Find a Provider
             </Link>
             <Link
               href="/contact"
@@ -51,7 +51,7 @@ export function Header() {
               href="/find-care"
               className="px-6 py-3 bg-[#5F7E9D] text-white font-modern font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white md:text-[14px] hover:text-[#5F7E9D] m-0 hover:border-[#5F7E9D] transition-all duration-300"
             >
-              Find Care That Fits
+              Create Your Dog’s Profile
             </Link>
           </nav>
 
@@ -77,13 +77,13 @@ export function Header() {
             >
               About
             </Link>
-            <Link
-              href="/auth/caregiver-signup"
-              className="block text-[#000000] font-modern font-normal text-[18px] leading-[100%] py-2 hover:opacity-70 transition-opacity"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Become A Caregiver
-            </Link>
+         <Link
+  href="/auth/caregiver-signup"
+  className="block text-[#000000] font-modern font-normal text-[18px] leading-[100%] py-2 hover:opacity-70 transition-opacity"
+  onClick={() => setIsMenuOpen(false)}
+>
+  Find a Provider
+</Link>
             <Link
               href="/contact"
               className="block text-[#000000] font-modern font-normal text-[18px] leading-[100%] py-2 hover:opacity-70 transition-opacity"
@@ -96,7 +96,7 @@ export function Header() {
               className="block w-full text-center px-6 py-3 bg-[#5F7E9D] text-white font-modern font-normal text-[18px] leading-[100%] rounded-[10px] border-2 border-transparent hover:bg-white hover:text-[#5F7E9D] hover:border-[#5F7E9D] transition-all duration-300"
               onClick={() => setIsMenuOpen(false)}
             >
-              Find Care That Fits
+              Create Your Dog’s Profile
             </Link>
           </nav>
         )}
