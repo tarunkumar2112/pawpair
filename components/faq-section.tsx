@@ -103,7 +103,7 @@ export function FAQSection() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className={`bg-white rounded-[12px] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ${
+                className={`bg-[#DFE5EB] rounded-[12px] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                 }`}
                 style={{
