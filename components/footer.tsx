@@ -136,7 +136,7 @@ export function Footer() {
 
             <div className="max-w-2xl">
               <p className=" font-inter text-[16px] text-[#4A5563] font-['Inter'] md:text-[18px] font-normal leading-[120%] tracking-[0%]">
-                Compatibility-based dog care, starting local and built thoughtfully.
+              AI-powered care for your dog, starting in your neighborhood.
               </p>
             </div>
 
