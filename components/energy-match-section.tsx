@@ -70,7 +70,7 @@ export function EnergyMatchSection() {
               <h3
                 className=" text-[18px] !text-[#000000]  font-modern font-normal leading-[120%] mb-5  md:text-[20px] xl:text-[24px]"
               >
-                Explain AI memory.
+                Your dog's profile gets smarter over time.
               </h3>
 
               <div className="space-y-3">
