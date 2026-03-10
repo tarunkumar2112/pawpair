@@ -9,7 +9,6 @@ import {
   UserCheck,
   Heart,
   ArrowLeftRight,
-  Settings,
   Users,
 } from "lucide-react";
 
@@ -20,7 +19,6 @@ const navItems = [
   { label: "Caregivers", href: "/dashboard/admin/caregivers", icon: Heart },
   { label: "Matches", href: "/dashboard/admin/matches", icon: ArrowLeftRight },
   { label: "Users", href: "/dashboard/admin/users", icon: Users },
-  { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
 ];
 
 export function AdminSidebar() {

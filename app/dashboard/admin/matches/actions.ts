@@ -72,16 +72,21 @@ export async function deleteMatch(id: string) {
 export async function createMatch(input: CreateMatchInput) {
   const supabase = await createClient();
 
-  const { error } = await supabase.from("matches").insert({
-    dog_id: input.dog_id,
-    caregiver_id: input.caregiver_id,
-    location_score: input.location_score,
-    size_score: input.size_score,
-    temperament_score: input.temperament_score,
-    availability_score: input.availability_score,
-    experience_score: input.experience_score,
-    match_status: input.match_status,
-  });
+  const { error } = await supabase
+    .from("matches")
+    .upsert(
+      {
+        dog_id: input.dog_id,
+        caregiver_id: input.caregiver_id,
+        location_score: input.location_score,
+        size_score: input.size_score,
+        temperament_score: input.temperament_score,
+        availability_score: input.availability_score,
+        experience_score: input.experience_score,
+        match_status: input.match_status,
+      },
+      { onConflict: "dog_id,caregiver_id" }
+    );
 
   if (error) return { success: false as const, error: error.message };
 
