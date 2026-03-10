@@ -1,12 +1,17 @@
-export default function AdminMatchesPage() {
-  return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <p
-        className="text-sm text-gray-400"
-        style={{ fontFamily: "Inter, sans-serif" }}
-      >
-        Coming soon
-      </p>
-    </div>
-  );
+import { createClient } from "@/lib/supabase/server";
+import { AdminMatchesPage } from "@/components/admin/admin-matches-page";
+
+export default async function MatchesPage() {
+  const supabase = await createClient();
+
+  const { data: matches } = await supabase
+    .from("matches")
+    .select(
+      `*,
+       dog:dogs(name, breed, owner:profiles(full_name)),
+       caregiver:caregivers(caregiver_user:profiles(full_name))`
+    )
+    .order("created_at", { ascending: false });
+
+  return <AdminMatchesPage initialMatches={matches ?? []} />;
 }
