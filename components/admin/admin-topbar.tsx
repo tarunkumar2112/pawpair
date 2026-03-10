@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Search, LogOut, Settings, ChevronDown } from "lucide-react";
+import { LogOut, Settings, ChevronDown } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 const headingMap: Record<string, string> = {
@@ -68,24 +68,7 @@ export function AdminTopbar({ userName }: AdminTopbarProps) {
           {heading}
         </h1>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <div className="hidden sm:flex items-center gap-2 bg-gray-100/80 rounded-xl px-3.5 py-2 w-60 lg:w-72">
-            <Search className="h-4 w-4 text-gray-400 shrink-0" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none w-full"
-              style={{ fontFamily: "Inter, sans-serif" }}
-            />
-            <kbd className="hidden lg:inline text-[10px] text-gray-400 bg-white px-1.5 py-0.5 rounded border border-gray-200 font-sans whitespace-nowrap">
-              ⌘K
-            </kbd>
-          </div>
-
-          <button className="sm:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors">
-            <Search className="h-5 w-5 text-gray-500" />
-          </button>
-
+        <div className="flex items-center gap-2">
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsOpen(!isOpen)}
