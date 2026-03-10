@@ -13,5 +13,33 @@ export default async function MatchesPage() {
     )
     .order("created_at", { ascending: false });
 
-  return <AdminMatchesPage initialMatches={matches ?? []} />;
+  const { data: dogs } = await supabase
+    .from("dogs")
+    .select("id, name, owner:profiles(full_name)")
+    .order("name");
+
+  const { data: caregivers } = await supabase
+    .from("caregivers")
+    .select("id, profiles(full_name)")
+    .eq("is_approved", true)
+    .order("id");
+
+  const dogOptions = (dogs ?? []).map((d) => ({
+    id: d.id,
+    name: d.name,
+    owner: (d as { owner?: { full_name: string | null } | null }).owner ?? null,
+  }));
+
+  const caregiverOptions = (caregivers ?? []).map((c) => ({
+    id: c.id,
+    full_name: (c as { profiles?: { full_name: string | null } | null }).profiles?.full_name ?? "Caregiver",
+  }));
+
+  return (
+    <AdminMatchesPage
+      initialMatches={matches ?? []}
+      dogs={dogOptions}
+      caregivers={caregiverOptions}
+    />
+  );
 }

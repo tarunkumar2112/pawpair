@@ -9,11 +9,13 @@ import {
   X,
   AlertCircle,
   PawPrint,
+  Zap,
 } from "lucide-react";
 import {
   createDog,
   updateDog,
   deleteDog as deleteDogAction,
+  generateMatchesForDog,
 } from "@/app/dashboard/admin/dogs/actions";
 
 interface Dog {
@@ -117,6 +119,7 @@ export function AdminDogsPage({ initialDogs, owners }: Props) {
   const [modalMode, setModalMode] = useState<"add" | "edit" | null>(null);
   const [editingDog, setEditingDog] = useState<Dog | null>(null);
   const [deletingDog, setDeletingDog] = useState<Dog | null>(null);
+  const [generatingDogId, setGeneratingDogId] = useState<string | null>(null);
   const [form, setForm] = useState<DogForm>(EMPTY_FORM);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -245,6 +248,17 @@ export function AdminDogsPage({ initialDogs, owners }: Props) {
     }
 
     setDeletingDog(null);
+  };
+
+  const handleGenerateMatches = async (dogId: string) => {
+    setGeneratingDogId(dogId);
+    const result = await generateMatchesForDog(dogId);
+    setGeneratingDogId(null);
+    if (result.success) {
+      alert(`Generated ${result.count} matches.`);
+    } else {
+      setError(result.error ?? "Failed to generate matches");
+    }
   };
 
   const toggleArray = (field: "temperament" | "care_type", value: string) => {
@@ -465,6 +479,18 @@ export function AdminDogsPage({ initialDogs, owners }: Props) {
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
                         <button
+                          onClick={() => handleGenerateMatches(dog.id)}
+                          disabled={generatingDogId === dog.id}
+                          className="p-1.5 rounded-lg hover:bg-amber-50 text-gray-400 hover:text-amber-600 transition-colors disabled:opacity-50"
+                          title="Generate Matches"
+                        >
+                          {generatingDogId === dog.id ? (
+                            <div className="w-3.5 h-3.5 border-2 border-amber-300 border-t-amber-600 rounded-full animate-spin" />
+                          ) : (
+                            <Zap className="h-3.5 w-3.5" />
+                          )}
+                        </button>
+                        <button
                           onClick={() => openEditModal(dog)}
                           className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-[#5F7E9D] transition-colors"
                         >
@@ -515,6 +541,18 @@ export function AdminDogsPage({ initialDogs, owners }: Props) {
                     </p>
                   </div>
                   <div className="flex items-center gap-0.5 shrink-0 ml-3">
+                    <button
+                      onClick={() => handleGenerateMatches(dog.id)}
+                      disabled={generatingDogId === dog.id}
+                      className="p-1.5 rounded-lg hover:bg-amber-50 text-gray-400 hover:text-amber-600 transition-colors disabled:opacity-50"
+                      title="Generate Matches"
+                    >
+                      {generatingDogId === dog.id ? (
+                        <div className="w-3.5 h-3.5 border-2 border-amber-300 border-t-amber-600 rounded-full animate-spin" />
+                      ) : (
+                        <Zap className="h-3.5 w-3.5" />
+                      )}
+                    </button>
                     <button
                       onClick={() => openEditModal(dog)}
                       className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-[#5F7E9D] transition-colors"
@@ -604,7 +642,7 @@ export function AdminDogsPage({ initialDogs, owners }: Props) {
 
       {/* ── Add / Edit Modal ── */}
       {modalMode && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-[5vh] px-4">
+        <div className="fixed inset-0 z-[60] flex items-start justify-center pt-[5vh] px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isSaving && setModalMode(null)}
@@ -952,7 +990,7 @@ export function AdminDogsPage({ initialDogs, owners }: Props) {
 
       {/* ── Delete Confirmation Modal ── */}
       {deletingDog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isDeleting && setDeletingDog(null)}

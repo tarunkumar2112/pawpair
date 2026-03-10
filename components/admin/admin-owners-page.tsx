@@ -387,7 +387,7 @@ export function AdminOwnersPage({ initialOwners }: Props) {
 
       {/* ── Edit Modal ── */}
       {editingOwner && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] px-4">
+        <div className="fixed inset-0 z-[60] flex items-start justify-center pt-[10vh] px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isSaving && setEditingOwner(null)}
@@ -496,7 +496,7 @@ export function AdminOwnersPage({ initialOwners }: Props) {
 
       {/* ── Delete Confirmation ── */}
       {deletingOwner && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isDeleting && setDeletingOwner(null)}

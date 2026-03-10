@@ -560,7 +560,7 @@ export function AdminCaregiversPage({ initialCaregivers }: Props) {
 
       {/* ── Edit Modal ── */}
       {editingRow && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-[5vh] px-4">
+        <div className="fixed inset-0 z-[60] flex items-start justify-center pt-[5vh] px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isSaving && setEditingRow(null)}
@@ -825,7 +825,7 @@ export function AdminCaregiversPage({ initialCaregivers }: Props) {
 
       {/* ── Delete Confirmation ── */}
       {deletingRow && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isDeleting && setDeletingRow(null)}

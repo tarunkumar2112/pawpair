@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
   Search,
+  Plus,
   Pencil,
   Trash2,
   X,
@@ -14,6 +15,7 @@ import {
   updateMatch,
   updateMatchStatus,
   deleteMatch as deleteMatchAction,
+  createMatch,
 } from "@/app/dashboard/admin/matches/actions";
 
 interface MatchRow {
@@ -85,18 +87,42 @@ function cap(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-interface Props {
-  initialMatches: MatchRow[];
+interface DogOption {
+  id: string;
+  name: string;
+  owner: { full_name: string | null } | null;
 }
 
-export function AdminMatchesPage({ initialMatches }: Props) {
+interface CaregiverOption {
+  id: string;
+  full_name: string;
+}
+
+interface Props {
+  initialMatches: MatchRow[];
+  dogs: DogOption[];
+  caregivers: CaregiverOption[];
+}
+
+export function AdminMatchesPage({ initialMatches, dogs, caregivers }: Props) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [tierFilter, setTierFilter] = useState<string | null>(null);
   const [showCount, setShowCount] = useState(10);
 
+  const [createOpen, setCreateOpen] = useState(false);
   const [editingMatch, setEditingMatch] = useState<MatchRow | null>(null);
   const [deletingMatch, setDeletingMatch] = useState<MatchRow | null>(null);
+  const [createForm, setCreateForm] = useState({
+    dog_id: "",
+    caregiver_id: "",
+    location_score: null as number | null,
+    size_score: null as number | null,
+    temperament_score: null as number | null,
+    availability_score: null as number | null,
+    experience_score: null as number | null,
+    match_status: "suggested",
+  });
   const [form, setForm] = useState<MatchForm>({
     location_score: null,
     size_score: null,
@@ -181,10 +207,46 @@ export function AdminMatchesPage({ initialMatches }: Props) {
     setDeletingMatch(null);
   };
 
+  const handleCreate = async () => {
+    if (!createForm.dog_id || !createForm.caregiver_id) {
+      setError("Please select a dog and caregiver");
+      return;
+    }
+    setIsSaving(true);
+    setError(null);
+    const result = await createMatch({
+      dog_id: createForm.dog_id,
+      caregiver_id: createForm.caregiver_id,
+      location_score: createForm.location_score,
+      size_score: createForm.size_score,
+      temperament_score: createForm.temperament_score,
+      availability_score: createForm.availability_score,
+      experience_score: createForm.experience_score,
+      match_status: createForm.match_status,
+    });
+    setIsSaving(false);
+    if (!result.success) {
+      setError(result.error);
+      return;
+    }
+    setCreateOpen(false);
+    setCreateForm({
+      dog_id: "",
+      caregiver_id: "",
+      location_score: null,
+      size_score: null,
+      temperament_score: null,
+      availability_score: null,
+      experience_score: null,
+      match_status: "suggested",
+    });
+  };
+
   return (
     <div className="space-y-5">
-      {/* ── Search ── */}
-      <div className="relative max-w-md">
+      {/* ── Search + Create ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="relative flex-1 max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
         <input
           type="text"
@@ -194,6 +256,27 @@ export function AdminMatchesPage({ initialMatches }: Props) {
           className="w-full pl-9 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-xl outline-none focus:border-[#5F7E9D] focus:ring-1 focus:ring-[#5F7E9D]/20 transition-all"
           style={FONT}
         />
+        <button
+          onClick={() => {
+            setCreateOpen(true);
+            setError(null);
+            setCreateForm({
+              dog_id: "",
+              caregiver_id: "",
+              location_score: null,
+              size_score: null,
+              temperament_score: null,
+              availability_score: null,
+              experience_score: null,
+              match_status: "suggested",
+            });
+          }}
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#5F7E9D] rounded-xl hover:bg-[#4e6d8c] transition-colors shrink-0"
+          style={FONT}
+        >
+          <Plus className="h-4 w-4" />
+          Create Match
+        </button>
       </div>
 
       {/* ── Filter Cards ── */}
@@ -452,9 +535,175 @@ export function AdminMatchesPage({ initialMatches }: Props) {
         </div>
       )}
 
+      {/* ── Create Match Modal ── */}
+      {createOpen && (
+        <div className="fixed inset-0 z-[60] flex items-start justify-center pt-[5vh] px-4">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => !isSaving && setCreateOpen(false)}
+          />
+          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
+              <h2 className="text-base font-semibold text-[#2F3E4E]" style={FONT}>
+                Create Match
+              </h2>
+              <button
+                onClick={() => !isSaving && setCreateOpen(false)}
+                className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+              {error && (
+                <div
+                  className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600"
+                  style={FONT}
+                >
+                  <AlertCircle className="h-4 w-4 shrink-0" />
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1.5" style={FONT}>
+                  Dog *
+                </label>
+                <select
+                  value={createForm.dog_id}
+                  onChange={(e) =>
+                    setCreateForm((f) => ({ ...f, dog_id: e.target.value }))
+                  }
+                  className="w-full px-3 py-2 text-sm bg-white border border-gray-200 rounded-xl outline-none focus:border-[#5F7E9D] focus:ring-1 focus:ring-[#5F7E9D]/20"
+                  style={FONT}
+                >
+                  <option value="">Select a dog…</option>
+                  {dogs.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name}
+                      {d.owner?.full_name ? ` (${d.owner.full_name})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1.5" style={FONT}>
+                  Caregiver *
+                </label>
+                <select
+                  value={createForm.caregiver_id}
+                  onChange={(e) =>
+                    setCreateForm((f) => ({ ...f, caregiver_id: e.target.value }))
+                  }
+                  className="w-full px-3 py-2 text-sm bg-white border border-gray-200 rounded-xl outline-none focus:border-[#5F7E9D] focus:ring-1 focus:ring-[#5F7E9D]/20"
+                  style={FONT}
+                >
+                  <option value="">Select a caregiver…</option>
+                  {caregivers.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.full_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3" style={FONT}>
+                  Score Breakdown
+                </p>
+                <div className="space-y-3">
+                  {SCORE_FIELDS.map(({ key, label }) => (
+                    <div key={key} className="flex items-center justify-between gap-4">
+                      <label className="text-xs font-medium text-gray-600 w-24 shrink-0" style={FONT}>
+                        {label}
+                      </label>
+                      <div className="flex gap-1">
+                        {[0, 1, 2, 3, 4, 5].map((n) => (
+                          <button
+                            key={n}
+                            type="button"
+                            onClick={() =>
+                              setCreateForm((f) => ({
+                                ...f,
+                                [key]: (f[key] === n ? null : n) as number | null,
+                              }))
+                            }
+                            className={`w-8 h-8 rounded-lg text-xs font-medium border transition-colors ${
+                              createForm[key] === n
+                                ? "bg-[#5F7E9D] text-white border-[#5F7E9D]"
+                                : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"
+                            }`}
+                            style={FONT}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3" style={FONT}>
+                  Match Status
+                </p>
+                <div className="flex gap-2">
+                  {STATUSES.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() =>
+                        setCreateForm((f) => ({ ...f, match_status: s }))
+                      }
+                      className={`flex-1 px-3 py-2 text-xs font-medium rounded-xl border transition-colors ${
+                        createForm.match_status === s
+                          ? "bg-[#5F7E9D] text-white border-[#5F7E9D]"
+                          : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                      }`}
+                      style={FONT}
+                    >
+                      {cap(s)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 shrink-0">
+              <button
+                onClick={() => setCreateOpen(false)}
+                disabled={isSaving}
+                className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
+                style={FONT}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreate}
+                disabled={isSaving}
+                className="px-5 py-2 text-sm font-medium text-white bg-[#5F7E9D] rounded-xl hover:bg-[#4e6d8c] transition-colors disabled:opacity-50 flex items-center gap-2"
+                style={FONT}
+              >
+                {isSaving ? (
+                  <>
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Creating…
+                  </>
+                ) : (
+                  "Create Match"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Edit Modal ── */}
       {editingMatch && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-[5vh] px-4">
+        <div className="fixed inset-0 z-[60] flex items-start justify-center pt-[5vh] px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isSaving && setEditingMatch(null)}
@@ -590,7 +839,7 @@ export function AdminMatchesPage({ initialMatches }: Props) {
 
       {/* ── Delete Confirmation ── */}
       {deletingMatch && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => !isDeleting && setDeletingMatch(null)}
