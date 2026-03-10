@@ -65,11 +65,11 @@ export default async function UsersPage() {
     .select("id, name, owner:profiles(full_name)")
     .order("name");
 
-  const dogOptions = (dogs ?? []).map((d) => ({
-    id: d.id,
-    name: d.name,
-    owner: (d as { owner?: { full_name: string | null } | null }).owner ?? null,
-  }));
+  const dogOptions = (dogs ?? []).map((d) => {
+    const raw = d as { owner?: { full_name: string | null } | { full_name: string | null }[] | null };
+    const owner = Array.isArray(raw.owner) ? raw.owner[0] ?? null : raw.owner ?? null;
+    return { id: d.id, name: d.name, owner };
+  });
 
   return (
     <AdminUsersPage

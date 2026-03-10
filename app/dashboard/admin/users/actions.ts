@@ -18,11 +18,11 @@ export interface CreateUserInput {
   dog_ids?: string[];
   new_dog?: {
     name: string;
-    breed: string;
-    size: string;
+    breed?: string;
+    size?: string;
     age: number | null;
     energy_level: number | null;
-    city: string;
+    city?: string;
   };
   caregiver_profile?: {
     bio: string;
