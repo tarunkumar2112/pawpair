@@ -18,6 +18,10 @@ export default async function DashboardPage() {
     .eq("id", userId)
     .single();
 
+  if (profile?.role === "admin") {
+    redirect("/dashboard/admin");
+  }
+
   if (profile?.role === "caregiver") {
     redirect("/dashboard/caregiver");
   }

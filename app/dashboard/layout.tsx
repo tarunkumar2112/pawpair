@@ -23,6 +23,10 @@ export default async function DashboardLayout({
     .eq("id", userId)
     .single();
 
+  if (profile?.role === "admin") {
+    return <>{children}</>;
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F6F2EA]">
       <DashboardHeader

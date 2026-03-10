@@ -46,6 +46,16 @@ VALUES
     '{"full_name":"Priya Kapoor","role":"owner"}',
     false, '', '', '', ''
   ),
+  -- 1 Admin (superadmin)
+  (
+    'f0000000-0000-0000-0000-000000000001',
+    '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+    'admin@mypawpair.com', crypt('PawPair@Admin2026!', gen_salt('bf')),
+    now(), now(), now(),
+    '{"provider":"email","providers":["email"]}',
+    '{"full_name":"Super Admin","role":"admin"}',
+    false, '', '', '', ''
+  ),
   -- 3 Caregivers
   (
     'b0000000-0000-0000-0000-000000000001',
@@ -87,6 +97,8 @@ VALUES
   ('a0000000-0000-0000-0000-000000000001', 'Ananya Sharma',  'owner',     'Mumbai',    '+91-9876543201', now()),
   ('a0000000-0000-0000-0000-000000000002', 'Rohan Mehta',    'owner',     'Delhi',     '+91-9876543202', now()),
   ('a0000000-0000-0000-0000-000000000003', 'Priya Kapoor',   'owner',     'Bengaluru', '+91-9876543203', now()),
+  -- Admin
+  ('f0000000-0000-0000-0000-000000000001', 'Super Admin',    'admin',     NULL,        NULL,             now()),
   -- Caregivers
   ('b0000000-0000-0000-0000-000000000001', 'Kavya Nair',     'caregiver', 'Mumbai',    '+91-9876543204', now()),
   ('b0000000-0000-0000-0000-000000000002', 'Arjun Verma',    'caregiver', 'Delhi',     '+91-9876543205', now()),

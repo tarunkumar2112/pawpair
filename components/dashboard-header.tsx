@@ -22,12 +22,20 @@ export function DashboardHeader({ userName, userRole }: DashboardHeaderProps) {
     ? userName.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
     : "U";
 
-  const roleLabel = userRole === "caregiver" ? "Caregiver" : "Dog Owner";
-  const roleColor = userRole === "caregiver" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700";
+  const roleLabel =
+    userRole === "admin" ? "Admin" : userRole === "caregiver" ? "Caregiver" : "Dog Owner";
+  const roleColor =
+    userRole === "admin"
+      ? "bg-green-100 text-green-700"
+      : userRole === "caregiver"
+        ? "bg-amber-100 text-amber-700"
+        : "bg-blue-100 text-blue-700";
   const settingsHref =
-    userRole === "caregiver"
-      ? "/dashboard/caregiver/settings"
-      : "/dashboard/owner/settings";
+    userRole === "admin"
+      ? "/dashboard/admin/settings"
+      : userRole === "caregiver"
+        ? "/dashboard/caregiver/settings"
+        : "/dashboard/owner/settings";
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -126,9 +134,11 @@ export function DashboardHeader({ userName, userRole }: DashboardHeaderProps) {
                 <div className="py-1.5">
                   <Link
                     href={
-                      userRole === "caregiver"
-                        ? "/dashboard/caregiver"
-                        : "/dashboard/owner"
+                      userRole === "admin"
+                        ? "/dashboard/admin"
+                        : userRole === "caregiver"
+                          ? "/dashboard/caregiver"
+                          : "/dashboard/owner"
                     }
                     onClick={() => setIsOpen(false)}
                     className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#2F3E4E] hover:bg-[#F6F2EA] transition-colors"
