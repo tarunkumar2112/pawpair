@@ -73,7 +73,7 @@ export function CaregiverSignUpForm({
             className="text-[#2F3E4E] text-2xl font-semibold mb-1"
             style={{ fontFamily: "var(--font-modern-sans), ui-sans-serif, system-ui, sans-serif" }}
           >
-            Become a PawPair Caregiver
+            Become a MyPawPair Caregiver
           </h1>
           <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
             Apply to join our trusted network of dog care professionals

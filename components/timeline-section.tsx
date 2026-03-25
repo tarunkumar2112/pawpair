@@ -69,7 +69,7 @@ export function TimelineSection() {
       image: "/timeline1.png",
       title: "Create your dog's profile",
       description:
-        "Tell PawPair about your dog’s breed, age, health, and personality.",
+        "Tell MyPawPair about your dog’s breed, age, health, and personality.",
       position: "left",
     },
     {
@@ -85,7 +85,7 @@ export function TimelineSection() {
       image: "/timeline3.png",
       title: "Find trusted local providers",
       description:
-        "When you need help, PawPair connects you with verified trainers, groomers, walkers, and vets.",
+        "When you need help, MyPawPair connects you with verified trainers, groomers, walkers, and vets.",
       position: "left",
     },
   ];
@@ -102,7 +102,7 @@ export function TimelineSection() {
               className="font-['Modern_Sans'] font-normal text-[27px] md:text-[36px] lg:text-[40px] xl:text-[46px] leading-[120%] text-[#fff]"
               
             >
-              How PawPair Works
+              How MyPawPair Works
             </h2>
           
           </div>

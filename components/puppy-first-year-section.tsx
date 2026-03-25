@@ -203,14 +203,14 @@ export function PuppyFirstYearSection() {
               className="text-[15px] md:text-[16px] leading-[145%] text-white/85 mb-8"
               style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
             >
-              PawPair guides new dog parents through every stage with weekly insights,
+              MyPawPair guides new dog parents through every stage with weekly insights,
               reminders, and tips tailored to your puppy&apos;s development.
             </p>
 
             {/* kidcare.png image */}
             <div className="relative w-full flex-1">
               <Image
-                src="/kidcare.png"
+                src="/kidcare.png"  
                 alt="Girl bonding with puppy on sofa"
                 width={700}
                 height={480}
